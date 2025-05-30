@@ -27,18 +27,7 @@ public class PatientService {
             .orElseThrow(() -> 
             new EntityNotFoundException("Entity not found for ID " + id));
     }
-
-    // public void updateByID(long id, Patient updatedPatient) {
-    //     Patient patient = patientRepository.findById(id)
-    //         .orElseThrow(() -> 
-    //         new EntityNotFoundException("Entity not found for ID " + id));
-    //     patient.setFirstName(updatedPatient.getFirstName());
-    //     patient.setLastName(updatedPatient.getLastName());
-    //     patient.setEmail(updatedPatient.getEmail());
-
-    //     patientRepository.save(patient);
-    // }
-
+    
     public void deleteByID(long id) {
         patientRepository.deleteById(id);
     }

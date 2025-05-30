@@ -1,11 +1,14 @@
 package com.example.application_viewer.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "patients")
 public class Patient {
     
     @Id
@@ -13,16 +16,10 @@ public class Patient {
     private long id;
     private String firstName;
     private String lastName;
+    
+    @Column(unique = true)
     private String email;
 
-    public Patient() {}
-
-    public Patient(String id, String firstName, String lastName, String email) {
-        
-    }
-    public void setID(long id) {
-        this.id = id;
-    }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

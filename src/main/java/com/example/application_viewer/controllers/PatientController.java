@@ -17,10 +17,10 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/")
+    @GetMapping("/patient_list")
     public String viewHomePage(Model model) {
         model.addAttribute("allPatList", patientService.getAllPatients());
-        return "index";
+        return "patientList";
     }
 
     @GetMapping("/add_patient")
@@ -34,7 +34,7 @@ public class PatientController {
     @PostMapping("/save_patient")
     public String savePatient(@ModelAttribute("patient") Patient patient) {
         patientService.save(patient);
-        return "redirect: /";
+        return "redirect:/";
     }
 
     @GetMapping("show_update_form/{id}")
@@ -47,7 +47,7 @@ public class PatientController {
     @GetMapping("delete_patient/{id}")
     public String deleteByID(@PathVariable(value = "id") long id) {
         patientService.deleteByID(id);
-        return "redirect: /";
+        return "redirect:/";
     }
 
 }

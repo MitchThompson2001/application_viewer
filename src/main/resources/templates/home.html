@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:if="${#authentication != null}">
+    <h1>Welcome, <span th:text="${#authentication.name}">User</span>!</h1>
+    <p>This is the home page after login.</p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+<div th:unless="${#authentication != null}">
+    <p>You are not logged in. <a th:href="@{/login}">Login here</a>.</p>
+</div>
+</body>
+</html>
