@@ -1,6 +1,5 @@
 package com.example.application_viewer.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -32,17 +31,19 @@ public class PatientController {
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String dob,
             @RequestParam(required = false) String phone,
+            @RequestParam(required = false, defaultValue = "firstName") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir,
             Model model) {
         
-        List<Patient> patients = new ArrayList<>();
-        
-        if (firstName != null || lastName != null || email != null || dob != null || phone != null) {
-            boolean hasSearchInput = Stream.of(firstName, lastName, email, dob, phone)
-                                        .anyMatch(val -> val != null && !val.trim().isEmpty());
+        boolean hasSearchInput = Stream.of(firstName, lastName, email, dob, phone)
+                                .anyMatch(val -> val != null && !val.trim().isEmpty());
 
-            if (hasSearchInput) {
-                patients = patientService.searchPatients(firstName, lastName, email, dob, phone);
-            }
+        List<Patient> patients;
+        if (hasSearchInput) {
+            patients = patientService.searchAndSortPatients(firstName, lastName, email, dob, phone, sortField, sortDir);
+        } else {
+            // Show all patients sorted, even if no filters
+            patients = patientService.searchAndSortPatients(null, null, null, null, null, sortField, sortDir);
         }
 
         model.addAttribute("allPatList", patients);
@@ -51,6 +52,9 @@ public class PatientController {
         model.addAttribute("email", email);
         model.addAttribute("dob", dob);
         model.addAttribute("phone", phone);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         return "patientList";
     }

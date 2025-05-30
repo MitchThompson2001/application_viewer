@@ -45,11 +45,61 @@
       <table class="table table-striped table-responsive-md" style="width:100%" border="1">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>DOB</th>
-            <th>Phone</th>
+            <th>
+              <a th:href="@{/patient_list(
+                  firstName=${firstName},
+                  lastName=${lastName},
+                  email=${email},
+                  dob=${dob},
+                  phone=${phone},
+                  sortField='firstName',
+                  sortDir=${sortField == 'firstName' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">First Name</a>
+            </th>
+            <th>
+              <a th:href="@{/patient_list(
+                  firstName=${firstName},
+                  lastName=${lastName},
+                  email=${email},
+                  dob=${dob},
+                  phone=${phone},
+                  sortField='lastName',
+                  sortDir=${sortField == 'lastName' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Last Name</a>
+            </th>
+            <th>
+              <a th:href="@{/patient_list(
+                  firstName=${firstName},
+                  lastName=${lastName},
+                  email=${email},
+                  dob=${dob},
+                  phone=${phone},
+                  sortField='email',
+                  sortDir=${sortField == 'email' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Email</a>
+            </th>
+            <th>
+              <a th:href="@{/patient_list(
+                  firstName=${firstName},
+                  lastName=${lastName},
+                  email=${email},
+                  dob=${dob},
+                  phone=${phone},
+                  sortField='dob',
+                  sortDir=${sortField == 'dob' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">DOB</a>
+            </th>
+            <th>
+              <a th:href="@{/patient_list(
+                  firstName=${firstName},
+                  lastName=${lastName},
+                  email=${email},
+                  dob=${dob},
+                  phone=${phone},
+                  sortField='phone',
+                  sortDir=${sortField == 'phone' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Phone</a>
+            </th>
           </tr>
         </thead>
         <tbody>
