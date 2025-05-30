@@ -10,14 +10,18 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{/}">Data Application Viewer</a>
+            <a class="navbar-brand">Data Application Viewer</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a class="nav-link" th:href="@{/student}">Student List</a></li>
 
-            <li><a class="nav-link" th:href="@{/subjects}">Subjects</a></li>
+            <li><a class="nav-link" th:href="@{/home}">Home</a></li>
 
-            <li><a class="nav-link" th:href="@{/teachers}">Teachers</a></li>    
+            <li><a class="nav-link" th:href="@{/patient_list}">Patient List</a></li>
+
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-outline-danger">Logout</button>
+            </form>
+            
         </ul>
     </div>    
 </nav>

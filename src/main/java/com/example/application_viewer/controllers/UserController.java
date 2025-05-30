@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.application_viewer.models.User;
 import com.example.application_viewer.services.UserService;
 
+/*
+ * A controller class that manages request relating to Users, the individuals that
+ * log onto the application to view patient data.
+ */
 @Controller
 public class UserController {
     

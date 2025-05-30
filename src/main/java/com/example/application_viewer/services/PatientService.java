@@ -12,10 +12,22 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PatientService {
+    
     @Autowired private PatientRepository patientRepository;
 
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
+    }
+
+    public List<Patient> searchPatients(String firstName, String lastName, String email, String dob, String phone) {
+        // Convert empty strings to null to work with the query
+        firstName = (firstName == null || firstName.isEmpty()) ? null : firstName;
+        lastName = (lastName == null || lastName.isEmpty()) ? null : lastName;
+        email = (email == null || email.isEmpty()) ? null : email;
+        dob = (dob == null || dob.isEmpty()) ? null : dob;
+        phone = (phone == null || phone.isEmpty()) ? null : phone;
+        
+        return patientRepository.searchPatients(firstName, lastName, email, dob, phone);
     }
 
     public void save(Patient patient) {

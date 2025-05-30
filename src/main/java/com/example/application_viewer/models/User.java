@@ -20,13 +20,19 @@ public class User implements UserDetails {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
     
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
     private String role;
+
+    public User() {}
 
     public void setUsername(String username) {
         this.username = username;
