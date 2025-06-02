@@ -5,6 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/*
+ * Entity class that defines the traits of a physical business location
+ * for the purpose of storage in a database
+ */
 @Entity
 @Table(name = "locations")
 public class Location {

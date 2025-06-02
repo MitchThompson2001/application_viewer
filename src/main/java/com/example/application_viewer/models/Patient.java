@@ -15,6 +15,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/*
+ * Entity class that defines the traits of a patient for storage in a database
+ */
 @Entity
 @Table(name = "patients")
 public class Patient {

@@ -5,6 +5,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/*
+ * Controller class with the primary focus of ensuring only authenticated users
+ * can access the home page as well as everything connected to it. This can
+ * be implemented better but is functional and simple for now.
+ */
 @Controller
 public class HomeController {
 

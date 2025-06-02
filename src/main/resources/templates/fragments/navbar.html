@@ -1,34 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>NavigationBar</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand">Data Application Viewer</a>
-        </div>
-        <ul class="nav navbar-nav">
+<nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" th:href="@{/home}">Data Application Viewer</a>
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarSupportedContent" 
+      aria-controls="navbarSupportedContent" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <li><a class="nav-link" th:href="@{/home}">Home</a></li>
-
-            <li><a class="nav-link" th:href="@{/patient_list}">Patient List</a></li>
-
-            <li><a class="nav-link" th:href="@{/location_list}">Location List</a></li>
-
-            <li><a class="nav-link" th:href="@{/document_list}">Document List</a></li>
-
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="btn btn-outline-danger">Logout</button>
-            </form>
-            
-        </ul>
-    </div>    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/home}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/patient_list}">Patient List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/location_list}">Location List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/document_list}">Document List</a>
+        </li>
+      </ul>
+      <form th:action="@{/logout}" method="post" class="d-flex">
+        <button type="submit" class="btn btn-outline-danger">Logout</button>
+      </form>
+    </div>
+  </div>
 </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

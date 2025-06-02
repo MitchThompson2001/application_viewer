@@ -12,7 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+/*
+ * Entity class that defined the traits of a PDF for the purpose of storage
+ * in a database
+ */
 @Entity
 @Table(name = "documents")
 public class Document {

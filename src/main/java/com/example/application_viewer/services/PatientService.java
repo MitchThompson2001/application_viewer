@@ -1,5 +1,7 @@
 package com.example.application_viewer.services;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +23,19 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public List<Patient> searchAndSortPatients(String firstName, String lastName, String email, String dob, String phone, String sortField, String sortDir) {
-        // Convert empty strings to null to work with the query
-        // firstName = (firstName == null || firstName.isEmpty()) ? null : firstName;
-        // lastName = (lastName == null || lastName.isEmpty()) ? null : lastName;
-        // email = (email == null || email.isEmpty()) ? null : email;
-        // dob = (dob == null || dob.isEmpty()) ? null : dob;
-        // phone = (phone == null || phone.isEmpty()) ? null : phone;
+    public List<Patient> searchAndSortPatients(
+        String firstName, 
+        String lastName, 
+        String email, 
+        String dob, 
+        String phone, 
+        String sortField, 
+        String sortDir) {
 
         Specification<Patient> spec = (root, query, cb) -> cb.conjunction();
-        
+
         if (firstName != null && !firstName.isEmpty()) {
-        spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
         }
 
         if (lastName != null && !lastName.isEmpty()) {
@@ -44,7 +47,13 @@ public class PatientService {
         }
 
         if (dob != null && !dob.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("dob")), "%" + dob.toLowerCase() + "%"));
+            try {
+                LocalDate dobDate = LocalDate.parse(dob);  // parse the date string to LocalDate
+                spec = spec.and((root, query, cb) -> cb.equal(root.get("dob"), dobDate));
+            } catch (DateTimeParseException e) {
+                // Handle invalid date format if needed, or ignore filter
+                System.out.println("Invalid dob format: " + dob);
+            }
         }
 
         if (phone != null && !phone.isEmpty()) {
@@ -52,8 +61,9 @@ public class PatientService {
         }
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
-        return patientRepository.findAll(spec, sort);    
+        return patientRepository.findAll(spec, sort);
     }
+
 
     public void save(Patient patient) {
         patientRepository.save(patient);

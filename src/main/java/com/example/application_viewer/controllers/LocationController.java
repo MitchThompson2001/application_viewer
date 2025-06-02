@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.application_viewer.models.Location;
 import com.example.application_viewer.services.LocationService;
 
+/*
+ * Controller class that maintains http requests relating to the Location
+ * class
+ */
 @Controller
 public class LocationController {
     @Autowired private LocationService locationService;

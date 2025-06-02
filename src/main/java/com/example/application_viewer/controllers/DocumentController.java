@@ -22,9 +22,14 @@ import com.example.application_viewer.models.Document;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.repositories.DocumentRepository;
 import com.example.application_viewer.repositories.PatientRepository;
+import com.example.application_viewer.services.DocumentHistoryService;
 import com.example.application_viewer.services.DocumentService;
 import com.example.application_viewer.services.FileStorageService;
 
+/*
+ * Controller class that maintains PDF documents uploaded to the local
+ * directory.
+ */
 @Controller
 public class DocumentController {
 
@@ -36,13 +41,7 @@ public class DocumentController {
 
     @Autowired private DocumentService documentService;
 
-    // @GetMapping("/document_list")
-    // public String listAllDocuments(Model model) {
-    //     List<String> fileNames = fileStorageService.listAllFiles();
-    //     model.addAttribute("fileNames", fileNames);
-
-    //     return "documentList";
-    // }
+    @Autowired private DocumentHistoryService documentHistoryService;
 
     @GetMapping("/document_list")
         public String listAllDocuments(Model model) {
@@ -57,6 +56,8 @@ public class DocumentController {
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws MalformedURLException {
         Resource resource = fileStorageService.loadFileAsResource(fileName);
 
+        documentHistoryService.recordAction(fileName, "VIEW");
+
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"") // "inline" to open in browser
@@ -66,6 +67,8 @@ public class DocumentController {
     @GetMapping("/documents/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MalformedURLException {
         Resource resource = fileStorageService.loadFileAsResource(fileName);
+
+        documentHistoryService.recordAction(fileName, "DOWNLOAD");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)

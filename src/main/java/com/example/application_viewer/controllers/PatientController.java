@@ -13,7 +13,7 @@ import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.services.PatientService;
 
 /*
- * Controller class that manages Patients defined in the model pkg.
+ * Controller class that manages http requests relating to the Patient class.
  */
 @Controller
 public class PatientController {

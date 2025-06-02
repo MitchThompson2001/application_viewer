@@ -1,116 +1,200 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Patient List</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* Sort arrow styles */
+        .sort-arrow {
+            font-size: 0.75rem;
+            margin-left: 4px;
+        }
+    </style>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
-<div class="container my-2">
-  <h3>Patient List</h3>
-  <div class="row">
-    <!-- Search form column -->
-    <div class="col-md-4">
-      <form method="get" action="/patient_list">
-        <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" th:value="${firstName}" class="form-control"/>
-        </div>
-        <div class="form-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" name="lastName" th:value="${lastName}" class="form-control"/>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" id="email" name="email" th:value="${email}" class="form-control"/>
-        </div>
-        <div class="form-group">
-          <label for="dob">DOB</label>
-          <input type="text" id="dob" name="dob" th:value="${dob}" placeholder="YYYY-MM-DD" class="form-control"/>
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone</label>
-          <input type="text" id="phone" name="phone" th:value="${phone}" class="form-control"/>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Search</button>
-      </form>
-    </div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <!-- Table column -->
-    <div class="col-md-8">
-      <table class="table table-striped table-responsive-md" style="width:100%" border="1">
-        <thead>
-          <tr>
-            <th>
-              <a th:href="@{/patient_list(
-                  firstName=${firstName},
-                  lastName=${lastName},
-                  email=${email},
-                  dob=${dob},
-                  phone=${phone},
-                  sortField='firstName',
-                  sortDir=${sortField == 'firstName' and sortDir == 'asc' ? 'desc' : 'asc'}
-              )}">First Name</a>
-            </th>
-            <th>
-              <a th:href="@{/patient_list(
-                  firstName=${firstName},
-                  lastName=${lastName},
-                  email=${email},
-                  dob=${dob},
-                  phone=${phone},
-                  sortField='lastName',
-                  sortDir=${sortField == 'lastName' and sortDir == 'asc' ? 'desc' : 'asc'}
-              )}">Last Name</a>
-            </th>
-            <th>
-              <a th:href="@{/patient_list(
-                  firstName=${firstName},
-                  lastName=${lastName},
-                  email=${email},
-                  dob=${dob},
-                  phone=${phone},
-                  sortField='email',
-                  sortDir=${sortField == 'email' and sortDir == 'asc' ? 'desc' : 'asc'}
-              )}">Email</a>
-            </th>
-            <th>
-              <a th:href="@{/patient_list(
-                  firstName=${firstName},
-                  lastName=${lastName},
-                  email=${email},
-                  dob=${dob},
-                  phone=${phone},
-                  sortField='dob',
-                  sortDir=${sortField == 'dob' and sortDir == 'asc' ? 'desc' : 'asc'}
-              )}">DOB</a>
-            </th>
-            <th>
-              <a th:href="@{/patient_list(
-                  firstName=${firstName},
-                  lastName=${lastName},
-                  email=${email},
-                  dob=${dob},
-                  phone=${phone},
-                  sortField='phone',
-                  sortDir=${sortField == 'phone' and sortDir == 'asc' ? 'desc' : 'asc'}
-              )}">Phone</a>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="patient : ${allPatList}">
-            <td th:text="${patient.firstName}"></td>
-            <td th:text="${patient.lastName}"></td>
-            <td th:text="${patient.email}"></td>
-            <td th:text="${patient.dob}"></td>
-            <td th:text="${patient.phone}"></td>
-          </tr>
-        </tbody>
-      </table>
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title mb-4">Patient List</h3>
+            <div class="row">
+                <!-- Search Form -->
+                <div class="col-md-4 mb-4">
+                    <form method="get" action="/patient_list" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                th:value="${firstName}"
+                                class="form-control"
+                                placeholder="Enter first name"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                th:value="${lastName}"
+                                class="form-control"
+                                placeholder="Enter last name"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                th:value="${email}"
+                                class="form-control"
+                                placeholder="Enter email address"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input
+                                type="date"
+                                id="dob"
+                                name="dob"
+                                th:value="${dob}"
+                                class="form-control"
+                                placeholder="YYYY-MM-DD"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                th:value="${phone}"
+                                class="form-control"
+                                placeholder="Enter phone number"
+                            />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </form>
+                </div>
+
+                <!-- Table -->
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                email=${email},
+                                                dob=${dob},
+                                                phone=${phone},
+                                                sortField='firstName',
+                                                sortDir=${sortField == 'firstName' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            First Name
+                                            <span class="sort-arrow" th:if="${sortField == 'firstName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                email=${email},
+                                                dob=${dob},
+                                                phone=${phone},
+                                                sortField='lastName',
+                                                sortDir=${sortField == 'lastName' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Last Name
+                                            <span class="sort-arrow" th:if="${sortField == 'lastName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                email=${email},
+                                                dob=${dob},
+                                                phone=${phone},
+                                                sortField='email',
+                                                sortDir=${sortField == 'email' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Email
+                                            <span class="sort-arrow" th:if="${sortField == 'email'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                email=${email},
+                                                dob=${dob},
+                                                phone=${phone},
+                                                sortField='dob',
+                                                sortDir=${sortField == 'dob' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            DOB
+                                            <span class="sort-arrow" th:if="${sortField == 'dob'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                email=${email},
+                                                dob=${dob},
+                                                phone=${phone},
+                                                sortField='phone',
+                                                sortDir=${sortField == 'phone' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Phone
+                                            <span class="sort-arrow" th:if="${sortField == 'phone'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="patient : ${allPatList}">
+                                    <td th:text="${patient.firstName}">John</td>
+                                    <td th:text="${patient.lastName}">Doe</td>
+                                    <td th:text="${patient.email}">john.doe@example.com</td>
+                                    <td th:text="${patient.dob}">1990-01-01</td>
+                                    <td th:text="${patient.phone}">(123) 456-7890</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(allPatList)}">
+                                    <td colspan="5" class="text-center text-muted">No patients found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

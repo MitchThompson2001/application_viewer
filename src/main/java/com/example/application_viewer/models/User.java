@@ -14,6 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/*
+ * Entity class that defines the traits of a User logged into the database to
+ * track access history
+ */
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
