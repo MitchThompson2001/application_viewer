@@ -1,14 +1,18 @@
 package com.example.application_viewer.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,10 +35,13 @@ public class Patient {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM-dd-yyyy")
     @Column(name = "dob")
-    private Date dob;
+    private LocalDate dob;
 
     @Column(name = "phone")
     private String phone;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Document> documents = new HashSet<>();
 
     public Patient() {}
 
@@ -47,7 +54,7 @@ public class Patient {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setDob(Date dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
     public void setPhone(String phone) {
@@ -66,10 +73,22 @@ public class Patient {
     public String getEmail() {
         return this.email;
     }
-    public Date getDob() {
+    public LocalDate getDob() {
         return this.dob;
     }
     public String getPhone() {
         return this.phone;
+    }
+
+    public void addDocument(Document document) {
+        this.documents.add(document);
+    }
+    public void removeDocumentById(Long id) {
+        for (Document doc : this.documents) {
+            if (doc.getId() == id) {
+                this.documents.remove(doc);
+                break;
+            }
+        }
     }
 }

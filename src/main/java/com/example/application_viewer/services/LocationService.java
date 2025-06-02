@@ -21,7 +21,6 @@ public class LocationService {
     }
 
     public List<Location> searchAndSortLocations(
-        String id, 
         String phoneNumber, 
         String faxNumber, 
         String locationName, 
@@ -33,12 +32,6 @@ public class LocationService {
         String sortDir) {
 
         Specification<Location> spec = (root, query, cb) -> cb.conjunction();
-
-        if (id != null && !id.isEmpty()) {
-        spec = spec.and((root, query, cb) -> 
-            cb.like(cb.lower(root.get("id")), 
-            "%" + id + "%"));
-        }
 
         if (phoneNumber != null && !phoneNumber.isEmpty()) {
         spec = spec.and((root, query, cb) -> 
@@ -91,13 +84,13 @@ public class LocationService {
         locationRepository.save(location);
     }
 
-    public Location getByID(String id) {
+    public Location getByID(long id) {
         return locationRepository.findById(id)
             .orElseThrow(() -> 
             new EntityNotFoundException("Entity not found for ID " + id));
     }
     
-    public void deleteByID(String id) {
+    public void deleteByID(long id) {
         locationRepository.deleteById(id);
     }
 }

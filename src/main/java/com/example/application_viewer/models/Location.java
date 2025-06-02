@@ -11,7 +11,7 @@ public class Location {
     
     @Id
     @Column(name = "id")
-    private String id;
+    private long id;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -36,7 +36,7 @@ public class Location {
 
     public Location() {}
 
-    public void setLocationID(String id) {
+    public void setLocationID(long id) {
         this.id = id;
     }
     public void setPhoneNumber(String phoneNumber) {
@@ -61,7 +61,7 @@ public class Location {
         this.zipCode = zipCode;
     }
 
-    public String getId() {
+    public long getId() {
         return this.id;
     }
     public String getPhoneNumber() {

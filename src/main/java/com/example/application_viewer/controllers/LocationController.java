@@ -22,7 +22,6 @@ public class LocationController {
      */
     @GetMapping("/location_list")
     public String searchLocation(
-            @RequestParam(required = false) String id,
             @RequestParam(required = false) String phoneNumber,
             @RequestParam(required = false) String faxNumber,
             @RequestParam(required = false) String locationName,
@@ -34,13 +33,12 @@ public class LocationController {
             @RequestParam(required = false, defaultValue = "asc") String sortDir,
             Model model) {
         
-        boolean hasSearchInput = Stream.of(id, phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode)
+        boolean hasSearchInput = Stream.of(phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode)
                                 .anyMatch(val -> val != null && !val.trim().isEmpty());
 
         List<Location> locations;
         if (hasSearchInput) {
             locations = locationService.searchAndSortLocations(
-                id, 
                 phoneNumber, 
                 faxNumber, 
                 locationName, 
@@ -54,7 +52,6 @@ public class LocationController {
             // Show all locations sorted, even if no filters
             locations = locationService.searchAndSortLocations(
                 null, 
-                null, 
                 null,
                 null, 
                 null, 
@@ -66,7 +63,6 @@ public class LocationController {
         }
 
         model.addAttribute("allLocList", locations);
-        model.addAttribute("id", id);
         model.addAttribute("phoneNumber", phoneNumber);
         model.addAttribute("faxNumber", faxNumber);
         model.addAttribute("locationName", locationName);
