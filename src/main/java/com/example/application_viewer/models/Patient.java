@@ -61,7 +61,7 @@ public class Patient {
         this.phone = phone;
     }
 
-    public long getID() {
+    public long getId() {
         return this.id;
     }
     public String getFirstName() {

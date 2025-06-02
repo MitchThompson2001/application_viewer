@@ -22,6 +22,7 @@ import com.example.application_viewer.models.Document;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.repositories.DocumentRepository;
 import com.example.application_viewer.repositories.PatientRepository;
+import com.example.application_viewer.services.DocumentService;
 import com.example.application_viewer.services.FileStorageService;
 
 @Controller
@@ -33,13 +34,24 @@ public class DocumentController {
 
     @Autowired private FileStorageService fileStorageService;
 
-    @GetMapping("/document_list")
-    public String listAllDocuments(Model model) {
-        List<String> fileNames = fileStorageService.listAllFiles();
-        model.addAttribute("fileNames", fileNames);
+    @Autowired private DocumentService documentService;
 
-        return "documentList";
-    }
+    // @GetMapping("/document_list")
+    // public String listAllDocuments(Model model) {
+    //     List<String> fileNames = fileStorageService.listAllFiles();
+    //     model.addAttribute("fileNames", fileNames);
+
+    //     return "documentList";
+    // }
+
+    @GetMapping("/document_list")
+        public String listAllDocuments(Model model) {
+            List<Document> documents = documentService.listAllDocuments();
+            model.addAttribute("documents", documents);
+
+            return "documentList";
+}
+
 
     @GetMapping("/documents/view/{fileName:.+}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws MalformedURLException {
@@ -71,6 +83,14 @@ public class DocumentController {
             @RequestParam("patientId") Long patientId,
             @RequestParam("file") MultipartFile file,
             Model model) {
+
+        if (file == null || file.isEmpty() || file.getContentType() == null || 
+            !file.getContentType().equalsIgnoreCase("application/pdf")) {
+
+            model.addAttribute("message", "Only PDF files are allowed.");
+            model.addAttribute("messageType", "danger");
+            return "uploadDocument";
+        }
 
         try {
             // Check if patient exists

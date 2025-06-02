@@ -22,7 +22,6 @@ public class Document {
     @Column(name = "id")
     private long id;
 
-    // Many documents can belong to one patient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;

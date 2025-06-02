@@ -44,7 +44,7 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public long getID() {
+    public long getId() {
         return this.id;
     }
     @Override public String getUsername() {
