@@ -3,6 +3,7 @@ package com.example.application_viewer.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.repositories.PatientRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Sort;
 
 @Service
 public class PatientService {
@@ -29,8 +29,8 @@ public class PatientService {
         // dob = (dob == null || dob.isEmpty()) ? null : dob;
         // phone = (phone == null || phone.isEmpty()) ? null : phone;
 
-        Specification<Patient> spec = Specification.where(null);
-
+        Specification<Patient> spec = (root, query, cb) -> cb.conjunction();
+        
         if (firstName != null && !firstName.isEmpty()) {
         spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
         }

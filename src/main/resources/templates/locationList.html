@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Patient</title>
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container my-2">
+  <h3>Patient List</h3>
+  <div class="row">
+    <!-- Search form column -->
+    <div class="col-md-4">
+      <form method="get" action="/location_list">
+        <div class="form-group">
+          <label for="id">Location ID</label>
+          <input type="text" id="id" name="id" th:value="${id}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="text" id="phoneNumber" name="phoneNumber" th:value="${phoneNumber}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="faxNumber">Fax Number</label>
+          <input type="text" id="faxNumber" name="faxNumber" th:value="${faxNumber}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="locationName">Location Name</label>
+          <input type="text" id="locationName" name="locationName" th:value="${locationName}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="streetAddress">Street Address</label>
+          <input type="text" id="streetAddress" name="streetAddress" th:value="${streetAddress}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" th:value="${city}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" th:value="${state}" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="zipCode">ZIP code</label>
+          <input type="text" id="zipCode" name="zipCode" th:value="${zipCode}" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+      </form>
+    </div>
+
+    <!-- Table column -->
+    <div class="col-md-8">
+      <table class="table table-striped table-responsive-md" style="width:100%" border="1">
+        <thead>
+          <tr>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='id',
+                  sortDir=${sortField == 'id' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Location ID</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='phoneNumber',
+                  sortDir=${sortField == 'phoneNumber' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Phone Number</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='faxNumber',
+                  sortDir=${sortField == 'faxNumber' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Fax Number</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='locationName',
+                  sortDir=${sortField == 'locationName' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Location Name</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='streetAddress',
+                  sortDir=${sortField == 'streetAddress' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">Street Address</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='city',
+                  sortDir=${sortField == 'city' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">City</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='state',
+                  sortDir=${sortField == 'state' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">State</a>
+            </th>
+            <th>
+              <a th:href="@{/location_list(
+                  id=${id},
+                  phoneNumber=${phoneNumber},
+                  faxNumber=${faxNumber},
+                  locationName=${locationName},
+                  streetAddress=${streetAddress},
+                  city=${city},
+                  state=${state},
+                  zipCode=${zipCode},
+                  sortField='zipCode',
+                  sortDir=${sortField == 'zipCode' and sortDir == 'asc' ? 'desc' : 'asc'}
+              )}">ZIP Code</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="location : ${allLocList}">
+            <td th:text="${location.id}"></td>
+            <td th:text="${location.phoneNumber}"></td>
+            <td th:text="${location.faxNumber}"></td>
+            <td th:text="${location.locationName}"></td>
+            <td th:text="${location.streetAddress}"></td>
+            <td th:text="${location.city}"></td>
+            <td th:text="${location.state}"></td>
+            <td th:text="${location.zipCode}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

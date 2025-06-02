@@ -40,10 +40,24 @@ public class PatientController {
 
         List<Patient> patients;
         if (hasSearchInput) {
-            patients = patientService.searchAndSortPatients(firstName, lastName, email, dob, phone, sortField, sortDir);
+            patients = patientService.searchAndSortPatients(
+                firstName, 
+                lastName, 
+                email, 
+                dob, 
+                phone, 
+                sortField, 
+                sortDir);
         } else {
             // Show all patients sorted, even if no filters
-            patients = patientService.searchAndSortPatients(null, null, null, null, null, sortField, sortDir);
+            patients = patientService.searchAndSortPatients(
+                null, 
+                null, 
+                null, 
+                null, 
+                null, 
+                sortField, 
+                sortDir);
         }
 
         model.addAttribute("allPatList", patients);

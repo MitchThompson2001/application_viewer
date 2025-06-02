@@ -107,7 +107,7 @@
             <td th:text="${patient.firstName}"></td>
             <td th:text="${patient.lastName}"></td>
             <td th:text="${patient.email}"></td>
-            <td th:text="${patient.dob}"></td>
+            <td th:text="${#dates.format(patient.dob, 'yyyy-MM-dd')}"></td>
             <td th:text="${patient.phone}"></td>
           </tr>
         </tbody>
