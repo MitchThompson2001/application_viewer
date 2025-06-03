@@ -50,9 +50,11 @@ public class Patient {
     private String phone;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Document> documents = new HashSet<>();
+    private final Set<Document> documents;
 
-    public Patient() {}
+    public Patient() {
+         documents = new HashSet<>();
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

@@ -41,4 +41,8 @@ public class DocumentHistoryService {
     public List<DocumentHistory> getUserHistory(String username) {
         return historyRepository.findByUsernameOrderByTimestampDesc(username);
     }
+
+    public List<DocumentHistory> listAllHistory() {
+        return historyRepository.findAll();
+    }
 }

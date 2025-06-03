@@ -64,7 +64,7 @@
                                 name="dob"
                                 th:value="${dob}"
                                 class="form-control"
-                                placeholder="YYYY-MM-DD"
+                                placeholder="MM-DD-YYYY"
                             />
                         </div>
                         <div class="mb-3">
@@ -78,7 +78,8 @@
                                 placeholder="Enter phone number"
                             />
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Search</button>
+                        <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn">Reset</button>
                     </form>
                 </div>
 
@@ -180,7 +181,7 @@
                                     <td th:text="${patient.firstName}">John</td>
                                     <td th:text="${patient.lastName}">Doe</td>
                                     <td th:text="${patient.email}">john.doe@example.com</td>
-                                    <td th:text="${patient.dob}">1990-01-01</td>
+                                    <td th:text="${#temporals.format(patient.dob, 'MM-dd-yyyy')}">12-31-1999</td>
                                     <td th:text="${patient.phone}">(123) 456-7890</td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(allPatList)}">
@@ -196,5 +197,28 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const phoneInput = document.getElementById("phone");
+
+        // Event listener for phone # formatting
+        phoneInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ""); // Remove all non-digits
+            if (value.length > 10) value = value.slice(0, 10); // Limit to 10 digits
+
+            const parts = [];
+            if (value.length > 0) parts.push(value.substring(0, 3));
+            if (value.length >= 4) parts.push(value.substring(3, 6));
+            if (value.length >= 7) parts.push(value.substring(6));
+
+            e.target.value = parts.join("-");
+        });
+
+        // Event listener for RESET
+        resetBtn.addEventListener("click", function () {
+            window.location.href = "/patient_list"; // Redirect without query parameters
+        });
+    });
+</script>
 </body>
 </html>
