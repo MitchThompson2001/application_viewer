@@ -370,7 +370,7 @@
           });
         }
 
-        // Phone number formatting
+        // fax number formatting
         const faxInput = document.getElementById("faxNumber");
         if (faxInput) {
           faxInput.addEventListener("input", function (e) {
@@ -383,6 +383,17 @@
             if (value.length >= 7) parts.push(value.substring(6));
 
             e.target.value = parts.join("-");
+          });
+        }
+
+        // ZIP code formatting
+        const zipInput = document.getElementById("zipCode");
+        if (faxInput) {
+          zipInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ""); // digits only
+            if (value.length > 5) value = value.slice(0, 5);
+
+            e.target.value = value;
           });
         }
 
