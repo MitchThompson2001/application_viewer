@@ -7,6 +7,7 @@
 package com.example.application_viewer.controllers;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,13 @@ public class PatientController {
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
-        String id_str = (id != null) ? Long.toString(id) : "";
-        boolean hasSearchInput = Stream.of(id_str, firstName, lastName, email, dob, phone)
-                                .anyMatch(val -> val != null && !val.trim().isEmpty());
+        boolean hasSearchInput = Stream.of(
+            id, 
+            firstName, 
+            lastName, 
+            email, 
+            dob, 
+            phone).anyMatch(Objects::nonNull);
 
         List<Patient> patients;
         if (hasSearchInput) {

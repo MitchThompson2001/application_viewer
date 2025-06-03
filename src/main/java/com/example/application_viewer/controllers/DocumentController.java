@@ -113,7 +113,10 @@ public class DocumentController {
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
-        boolean hasSearchInput = Stream.of(id, fileName, uploadDate).anyMatch(Objects::nonNull);
+        boolean hasSearchInput = Stream.of(
+            id, 
+            fileName, 
+            uploadDate).anyMatch(Objects::nonNull);
 
         List<Document> documents;
         if (hasSearchInput) {
@@ -162,6 +165,7 @@ public class DocumentController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"") // "inline" to open in browser
                 .body(resource);
     }
+    
     /*
      * Allows a user to download a PDF from the computer to their local device
      */

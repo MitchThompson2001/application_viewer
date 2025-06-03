@@ -41,7 +41,12 @@ public class DocumentHistoryController {
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
-        boolean hasSearchInput = Stream.of(id, username, fileName, action, timestamp).anyMatch(Objects::nonNull);
+        boolean hasSearchInput = Stream.of(
+            id, 
+            username, 
+            fileName, 
+            action, 
+            timestamp).anyMatch(Objects::nonNull);
 
         List<DocumentHistory> history;
         if (hasSearchInput) {

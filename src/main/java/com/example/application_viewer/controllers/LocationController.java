@@ -45,10 +45,15 @@ public class LocationController {
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
             
-        // String id_str = (id != null) ? Long.toString(id) : "";
-        // boolean hasSearchInput = Stream.of(id_str, phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode)
-        //                         .anyMatch(val -> val != null && !val.trim().isEmpty());
-        boolean hasSearchInput = Stream.of(id, phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode).anyMatch(Objects::nonNull);
+        boolean hasSearchInput = Stream.of(
+            id, 
+            phoneNumber, 
+            faxNumber, 
+            locationName, 
+            streetAddress, 
+            city, 
+            state, 
+            zipCode).anyMatch(Objects::nonNull);
 
         List<Location> locations;
         if (hasSearchInput) {

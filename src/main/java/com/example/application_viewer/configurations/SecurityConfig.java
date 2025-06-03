@@ -32,8 +32,14 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(
-                    "/login", "/h2-console/**", "/add_user", "/save_user", 
-                    "/save_patient", "/css/**", "/js/**", "/test-auth"
+                    "/login", 
+                    "/h2-console/**", 
+                    "/add_user", 
+                    "/save_user", 
+                    "/save_patient", 
+                    "/css/**", 
+                    "/js/**", 
+                    "/test-auth"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

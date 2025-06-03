@@ -34,7 +34,12 @@ public class DocumentHistory {
 
     public DocumentHistory() {}
 
-    public DocumentHistory(String username, String action, String fileName, LocalDateTime timestamp) {
+    public DocumentHistory(
+        String username, 
+        String action, 
+        String fileName, 
+        LocalDateTime timestamp) {
+            
         this.username = username;
         this.action = action;
         this.fileName = fileName;

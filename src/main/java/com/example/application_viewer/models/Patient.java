@@ -49,7 +49,10 @@ public class Patient {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
     private final Set<Document> documents;
 
     public Patient() {
