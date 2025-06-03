@@ -6,6 +6,7 @@
 
 package com.example.application_viewer.controllers;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -234,10 +235,7 @@ public class DocumentController {
 
             model.addAttribute("message", "Upload successful!");
             model.addAttribute("messageType", "success");
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("message", e.getMessage()); // "Patient not found"
-            model.addAttribute("messageType", "danger");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IOException e) {
             model.addAttribute("message", "Upload failed: " + e.getMessage());
             model.addAttribute("messageType", "danger");
         }
