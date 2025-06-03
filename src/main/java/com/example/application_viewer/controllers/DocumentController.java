@@ -30,6 +30,7 @@ import com.example.application_viewer.repositories.PatientRepository;
 import com.example.application_viewer.services.DocumentHistoryService;
 import com.example.application_viewer.services.DocumentService;
 import com.example.application_viewer.services.FileStorageService;
+import com.example.application_viewer.services.PatientService;
 
 /*
  * Controller class that maintains PDF documents uploaded to the local
@@ -48,6 +49,8 @@ public class DocumentController {
 
     @Autowired private DocumentHistoryService documentHistoryService;
 
+    @Autowired private PatientService patientService;
+
     /*
      * Directs to the documentList html
      */
@@ -57,6 +60,20 @@ public class DocumentController {
             model.addAttribute("documents", documents);
 
             return "documentList";
+    }
+
+    /*
+     * View docs for a specific ID
+     */
+    @GetMapping("/document_list/{id}")
+    public String listPatientDocuments(@PathVariable Long id, Model model) {
+        List<Document> documents = documentService.listPatientDocuments(id);
+        model.addAttribute("documents", documents);
+
+        String firstName = patientService.getPatientFirstNameById(id);
+        model.addAttribute("title", firstName + "'s Documents");
+
+        return "patientDocumentList";
     }
 
     /*
@@ -94,6 +111,15 @@ public class DocumentController {
     @GetMapping("/upload_document")
     public String showUploadPage() {
         return "uploadDocument";
+    }
+
+    /*
+     * Upload page where ID is already attached due to working within a profile
+     */
+    @GetMapping("/upload_document/{id}")
+    public String showPatientUploadPage(@PathVariable Long id, Model model) {
+        model.addAttribute("id", id);
+        return "uploadDocumentPatient";
     }
 
     /*

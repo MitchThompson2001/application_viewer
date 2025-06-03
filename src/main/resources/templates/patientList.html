@@ -10,6 +10,9 @@
             font-size: 0.75rem;
             margin-left: 4px;
         }
+        .selected-row {
+        background-color: #d4edda !important;
+    }
     </style>
 </head>
 <body>
@@ -93,9 +96,15 @@
                         <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn">Reset</button>
                     </form>
                 </div>
+                
 
                 <!-- Table -->
                 <div class="col-md-8">
+
+                    <div class="mb-3">
+                        <button id="viewDocsBtn" class="btn btn-primary" disabled>View Documents</button>
+                        <input type="hidden" id="selectedPatientId" />
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover align-middle">
                             <thead class="table-light">
@@ -211,7 +220,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="patient : ${allPatList}">
+                                <tr th:each="patient : ${allPatList}"
+                                    th:data-patient-id="${patient.id}"
+                                    style="cursor: pointer;">
+
                                     <td th:text="${patient.id}">3</td>
                                     <td th:text="${patient.firstName}">John</td>
                                     <td th:text="${patient.lastName}">Doe</td>
@@ -236,10 +248,10 @@
     document.addEventListener("DOMContentLoaded", function () {
         const phoneInput = document.getElementById("phone");
 
-        // Event listener for phone # formatting
+        // Format phone input
         phoneInput.addEventListener("input", function (e) {
-            let value = e.target.value.replace(/\D/g, ""); // Remove all non-digits
-            if (value.length > 10) value = value.slice(0, 10); // Limit to 10 digits
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 10) value = value.slice(0, 10);
 
             const parts = [];
             if (value.length > 0) parts.push(value.substring(0, 3));
@@ -249,9 +261,35 @@
             e.target.value = parts.join("-");
         });
 
-        // Event listener for RESET
-        resetBtn.addEventListener("click", function () {
-            window.location.href = "/patient_list"; // Redirect without query parameters
+        // row logic
+        const rows = document.querySelectorAll("tr[data-patient-id]");
+        const selectedInput = document.getElementById("selectedPatientId");
+        const viewDocsBtn = document.getElementById("viewDocsBtn");
+
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                // Deselect other rows
+                rows.forEach(r => r.classList.remove("selected-row"));
+
+                // Highlight current row
+                this.classList.add("selected-row");
+
+                // Store selected patient ID
+                const patientId = this.getAttribute("data-patient-id");
+                selectedInput.value = patientId;
+                viewDocsBtn.disabled = false;
+            });
+        });
+
+        viewDocsBtn.addEventListener("click", function () {
+            const patientId = selectedInput.value;
+            if (patientId) {
+                window.location.href = `/document_list/${patientId}`;
+            }
+        });
+
+        document.getElementById("resetBtn").addEventListener("click", function () {
+            window.location.href = "/patient_list";
         });
     });
 </script>

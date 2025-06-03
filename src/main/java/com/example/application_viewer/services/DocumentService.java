@@ -18,6 +18,10 @@ import com.example.application_viewer.repositories.DocumentRepository;
 public class DocumentService {
     
     @Autowired private DocumentRepository documentRepository;
+
+    public List<Document> listPatientDocuments(Long id) {
+        return documentRepository.findByPatientId(id);
+    }
     
     public List<Document> listAllDocuments() {
         return documentRepository.findAllWithPatient();

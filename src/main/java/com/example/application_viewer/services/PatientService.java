@@ -75,6 +75,12 @@ public class PatientService {
         return patientRepository.findAll(spec, sort);
     }
 
+    public String getPatientFirstNameById(Long id) {
+        return patientRepository.findById(id)
+                .map(Patient::getFirstName)
+                .orElse("Unknown");
+    }
+
 
     public void save(Patient patient) {
         patientRepository.save(patient);
