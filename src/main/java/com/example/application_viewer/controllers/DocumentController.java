@@ -9,9 +9,12 @@ package com.example.application_viewer.controllers;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,13 +54,48 @@ public class DocumentController {
 
     @Autowired private PatientService patientService;
 
+
     /*
      * Directs to the documentList html
      */
     @GetMapping("/document_list")
-        public String listAllDocuments(Model model) {
-            List<Document> documents = documentService.listAllDocuments();
-            model.addAttribute("documents", documents);
+        public String searchDocuments(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) Long patientId,
+            @RequestParam(required = false) String fileName,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate uploadDate,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir,
+            Model model) {
+
+            boolean hasSearchInput = Stream.of(id, patientId, fileName, uploadDate).anyMatch(Objects::nonNull);
+
+            List<Document> documents;
+            if (hasSearchInput) {
+                documents = documentService.searchAndSortDocuments(
+                    id,
+                    patientId,
+                    fileName,
+                    uploadDate,
+                    sortField,
+                    sortDir);
+            } else {
+                documents = documentService.searchAndSortDocuments(
+                    null,
+                    null,
+                    null,
+                    null,
+                    sortField,
+                    sortDir);
+            }
+            model.addAttribute("allDocList", documents);
+            model.addAttribute("id", id);
+            model.addAttribute("patientId", patientId);
+            model.addAttribute("fileName", fileName);
+            model.addAttribute("uploadDate", uploadDate);
+            model.addAttribute("sortField", sortField);
+            model.addAttribute("sortDir", sortDir);
+            model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
             return "documentList";
     }
@@ -66,7 +104,7 @@ public class DocumentController {
      * View docs for a specific ID
      */
     @GetMapping("/document_list/{id}")
-    public String listPatientDocuments(@PathVariable Long id, Model model) {
+    public String searchPatientDocuments(@PathVariable Long id, Model model) {
         List<Document> documents = documentService.listPatientDocuments(id);
         model.addAttribute("documents", documents);
 
@@ -173,60 +211,5 @@ public class DocumentController {
 
         return "uploadDocument";
     }
-
-
-    // @PostMapping("/patients/{patientId}/upload")
-    // public String uploadDocument(@PathVariable Long patientId,
-    //                               @RequestParam("file") MultipartFile file) throws IOException {
-    //     Patient patient = patientRepository.findById(patientId)
-    //         .orElseThrow(() -> new RuntimeException("Patient not found"));
-
-    //     String storedFileName = fileStorageService.storeFile(file);
-
-    //     Document doc = new Document();
-    //     doc.setFileName(file.getOriginalFilename());
-    //     // doc.setPdfFile(file.getBytes());
-    //     doc.setFilePath(storedFileName);
-    //     doc.setUploadDate(LocalDate.now());
-    //     doc.setPatient(patient);
-
-    //     documentRepository.save(doc);
-
-    //     return "redirect:/patients/" + patientId;
-    // }
-
-    // @GetMapping("/patients/{patientId}")
-    // public String showPatientDocuments(@PathVariable Long patientId, Model model) {
-    //     Patient patient = patientRepository.findById(patientId)
-    //         .orElseThrow(() -> new RuntimeException("Patient not found"));
-
-    //     model.addAttribute("patient", patient);
-    //     model.addAttribute("documents", documentRepository.findByPatientId(patientId));
-    //     return "patientDocuments";
-    // }
-
-    // @GetMapping("/documents/{id}/download")
-    // public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
-    //     Document document = documentRepository.findById(id)
-    //             .orElseThrow(() -> new RuntimeException("Document not found"));
-
-    //     Resource resource = fileStorageService.loadFileAsResource(document.getFilePath());
-
-    //     return ResponseEntity.ok()
-    //             .contentType(MediaType.APPLICATION_PDF)
-    //             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getFileName() + "\"")
-    //             .body(resource);
-    // }
-
-    // @GetMapping("/documents/{id}/download")
-    // public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {
-    //     Document document = documentRepository.findById(id)
-    //         .orElseThrow(() -> new RuntimeException("Document not found"));
-
-    //     return ResponseEntity.ok()
-    //         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getFileName() + "\"")
-    //         .contentType(MediaType.APPLICATION_PDF)
-    //         .body(document.getPdfFile());
-    // }
 }
 
