@@ -104,11 +104,44 @@ public class DocumentController {
      * View docs for a specific ID
      */
     @GetMapping("/document_list/{id}")
-    public String searchPatientDocuments(@PathVariable Long id, Model model) {
-        List<Document> documents = documentService.listPatientDocuments(id);
-        model.addAttribute("documents", documents);
+    public String searchPatientDocuments(
+        @PathVariable Long id,
+        @RequestParam(required = false) String fileName,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate uploadDate,
+        @RequestParam(required = false, defaultValue = "id") String sortField,
+        @RequestParam(required = false, defaultValue = "asc") String sortDir,
+        Model model) {
+
+        boolean hasSearchInput = Stream.of(id, fileName, uploadDate).anyMatch(Objects::nonNull);
+
+        List<Document> documents;
+        if (hasSearchInput) {
+            documents = documentService.searchAndSortDocuments(
+                null,
+                id,
+                fileName,
+                uploadDate,
+                sortField,
+                sortDir);
+        } else {
+            documents = documentService.searchAndSortDocuments(
+                null,
+                null,
+                null,
+                null,
+                sortField,
+                sortDir);
+        }
 
         String firstName = patientService.getPatientFirstNameById(id);
+
+        model.addAttribute("documents", documents);
+        model.addAttribute("patientId", id);
+        model.addAttribute("fileName", fileName);
+        model.addAttribute("uploadDate", uploadDate);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("title", firstName + "'s Documents");
 
         return "patientDocumentList";

@@ -2,93 +2,115 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Document List</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <title th:text="${title}">Patient Documents</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-      body {
-        background: #f8f9fa;
-        min-height: 100vh;
-      }
-      h2 {
-        font-weight: 600;
-        color: #343a40;
-      }
-      table {
-        background: white;
-        border-radius: 0.25rem;
-        box-shadow: 0 0.15rem 0.3rem rgba(0,0,0,0.1);
-      }
-      .btn-back {
-        margin-top: 1.5rem;
-      }
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        h2 {
+            font-weight: 600;
+            color: #343a40;
+        }
+        table {
+            background: white;
+            box-shadow: 0 0.15rem 0.3rem rgba(0,0,0,0.1);
+            border-radius: 0.25rem;
+        }
+        .sort-indicator {
+            margin-left: 0.25rem;
+            font-size: 0.75rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar fragment -->
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div class="container mt-5">
-        <h2 class="mb-4" th:text="${title}">Patient's Documents</h2>
-        <div class="table-responsive shadow-sm rounded">
-          <table class="table table-bordered mb-0 align-middle">
-              <thead class="table-light">
-                  <tr>
-                      <th scope="col" style="width: 5%;">#</th>
-                      <th scope="col">File Name</th>
-                      <th scope="col" style="width: 15%;">Patient ID</th>
-                      <th scope="col" style="width: 10%;">Actions</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr th:each="document, iterStat : ${documents}">
-                      <td th:text="${iterStat.count}">1</td>
-                      <td th:text="${document.fileName}">example.pdf</td>
-                      <td th:text="${document.patient.id}">123</td>
-                      <td>
-                          <div class="dropdown">
-                              <button
-                                class="btn btn-outline-primary btn-sm dropdown-toggle"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                Options
-                              </button>
-                              <ul class="dropdown-menu">
-                                  <li>
-                                      <a class="dropdown-item"
-                                         th:href="@{/documents/view/{fileName}(fileName=${document.fileName})}"
-                                         target="_blank"
-                                      >
-                                        View
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a class="dropdown-item"
-                                         th:href="@{/documents/download/{fileName}(fileName=${document.fileName})}"
-                                      >
-                                        Download
-                                      </a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+    <h2 class="mb-4" th:text="${title}">Patient's Documents</h2>
+
+    <!-- Search Form -->
+    <form method="get" th:action="@{/document_list/{id}(id=${patientId})}" class="card p-3 shadow-sm mb-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="fileName" class="form-label">File Name</label>
+                <input type="text" id="fileName" name="fileName" class="form-control" th:value="${fileName}" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="uploadDate" class="form-label">Upload Date</label>
+                <input type="date" id="uploadDate" name="uploadDate" class="form-control" th:value="${uploadDate}" />
+            </div>
         </div>
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary me-2">Search</button>
+            <button type="button" id="resetBtn" class="btn btn-outline-secondary" th:attr="data-patient-id=${patientId}">Reset</button>
+        </div>
+    </form>
 
-        <div class="d-flex justify-content-between mt-4">
-          <a href="/patient_list" class="btn btn-secondary">Back</a>
-          <a th:href="@{/upload_document/{id}(id=${id})}" class="btn btn-primary">Upload</a>
-      </div>
+    <!-- Table -->
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        <a th:href="@{/document_list/{id}(id=${patientId}, fileName=${fileName}, uploadDate=${uploadDate}, sortField='id', sortDir=${sortField == 'id' and sortDir == 'asc' ? 'desc' : 'asc'})}">
+                            ID <span th:if="${sortField == 'id'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}" class="sort-indicator"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a th:href="@{/document_list/{id}(id=${patientId}, fileName=${fileName}, uploadDate=${uploadDate}, sortField='fileName', sortDir=${sortField == 'fileName' and sortDir == 'asc' ? 'desc' : 'asc'})}">
+                            File Name <span th:if="${sortField == 'fileName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}" class="sort-indicator"></span>
+                        </a>
+                    </th>
+                    <th>Patient ID</th>
+                    <th>
+                        <a th:href="@{/document_list/{id}(id=${patientId}, fileName=${fileName}, uploadDate=${uploadDate}, sortField='uploadDate', sortDir=${sortField == 'uploadDate' and sortDir == 'asc' ? 'desc' : 'asc'})}">
+                            Upload Date <span th:if="${sortField == 'uploadDate'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}" class="sort-indicator"></span>
+                        </a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="document : ${documents}">
+                    <td th:text="${document.id}">1</td>
+                    <td th:text="${document.fileName}">example.pdf</td>
+                    <td th:text="${document.patient.id}">123</td>
+                    <td th:text="${#temporals.format(document.uploadDate, 'MM-dd-yyyy')}">12-31-1999</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Options
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/documents/view/{fileName}(fileName=${document.fileName})}" target="_blank">View</a></li>
+                                <li><a class="dropdown-item" th:href="@{/documents/download/{fileName}(fileName=${document.fileName})}">Download</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(documents)}">
+                    <td colspan="5" class="text-center text-muted">No documents found.</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    ></script>
+    <div class="d-flex justify-content-between mt-4">
+        <a href="/patient_list" class="btn btn-secondary">Back</a>
+        <a th:href="@{/upload_document/{id}(id=${patientId})}" class="btn btn-primary">Upload</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById("resetBtn")?.addEventListener("click", function () {
+        const patientId = this.dataset.patientId;
+        window.location.href = "/document_list/" + patientId;
+    });
+</script>
+
 </body>
 </html>

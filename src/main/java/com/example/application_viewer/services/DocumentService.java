@@ -45,7 +45,7 @@ public class DocumentService {
         }
 
         if (patientId != null) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("patient"), patientId));
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("patient").get("id"), patientId));
         }
 
         if (fileName != null && !fileName.isEmpty()) {
