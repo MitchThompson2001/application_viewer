@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: FileStorageProperties.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.components;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

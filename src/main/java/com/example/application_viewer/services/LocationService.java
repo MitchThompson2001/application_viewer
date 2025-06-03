@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: LocationService.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.services;
 
 import java.util.List;

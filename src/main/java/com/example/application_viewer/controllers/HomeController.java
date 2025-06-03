@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: HomeController.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.controllers;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,12 +18,18 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
-
+    /*
+     * Directs to home.html
+     */
     @GetMapping("/home")
     public String home(Authentication authentication) {
         return "home";
     }
 
+    /*
+     * Will redirect user to login route if not signed in. 
+     * Otherwise will direct them to the home route 
+     */
     @GetMapping("/")
     public String redirectRoot(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated() &&
@@ -27,6 +39,10 @@ public class HomeController {
         return "redirect:/login";
     }
 
+    /*
+     * Will redirect user to home route if already logged in. 
+     * Otherwise will direct them to the login route
+     */
     @GetMapping("/login")
     public String login(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()

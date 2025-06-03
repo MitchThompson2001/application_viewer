@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: DocumentHistory.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.models;
 
 import java.time.LocalDateTime;

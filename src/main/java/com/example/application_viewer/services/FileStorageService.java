@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: FileStorageService.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.services;
 
 import java.io.IOException;
@@ -18,6 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.application_viewer.components.FileStorageProperties;
 
+/*
+ * Service class that manages the local file directory for storing PDF files. 
+ * Currently the implementation is only intended to store PDF files, but
+ * this should be able to manage any file type
+ */
 @Service
 public class FileStorageService {
 
@@ -43,7 +54,11 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) throws IOException {
         // String fileName = UUID.randomUUID() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            originalFilename = "";  // or some safe default
+        }
+        String fileName = StringUtils.cleanPath(originalFilename);
         Path targetLocation = this.fileStorageLocation.resolve(fileName);
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
         

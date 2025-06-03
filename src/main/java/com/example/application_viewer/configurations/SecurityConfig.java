@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: SecurityConfig.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;

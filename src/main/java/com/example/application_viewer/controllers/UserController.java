@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: UserController.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: Location.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.models;
 
 import jakarta.persistence.Column;

@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: Document.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.models;
 
 import java.time.LocalDate;

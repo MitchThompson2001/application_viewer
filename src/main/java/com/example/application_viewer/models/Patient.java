@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: Patient.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.models;
 
 import java.time.LocalDate;

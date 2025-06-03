@@ -1,6 +1,11 @@
+/*
+ * Name: Mitchell Thompson
+ * File: DocumentController.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.controllers;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -43,15 +48,20 @@ public class DocumentController {
 
     @Autowired private DocumentHistoryService documentHistoryService;
 
+    /*
+     * Directs to the documentList html
+     */
     @GetMapping("/document_list")
         public String listAllDocuments(Model model) {
             List<Document> documents = documentService.listAllDocuments();
             model.addAttribute("documents", documents);
 
             return "documentList";
-}
+    }
 
-
+    /*
+     * Allows a user to view a PDF stored in the database without downloading
+     */
     @GetMapping("/documents/view/{fileName:.+}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws MalformedURLException {
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -63,7 +73,9 @@ public class DocumentController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"") // "inline" to open in browser
                 .body(resource);
     }
-
+    /*
+     * Allows a user to download a PDF from the computer to their local device
+     */
     @GetMapping("/documents/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MalformedURLException {
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -76,20 +88,32 @@ public class DocumentController {
                 .body(resource);
     }
 
+    /*
+     * Directs to the uploadDocument html
+     */
     @GetMapping("/upload_document")
     public String showUploadPage() {
         return "uploadDocument";
     }
 
+    /*
+     * Allows a user to upload a PDF file from their local device
+     * to the database attached to a specific patient ID
+     */
     @PostMapping("/upload")
     public String handleUpload(
             @RequestParam("patientId") Long patientId,
             @RequestParam("file") MultipartFile file,
             Model model) {
 
-        if (file == null || file.isEmpty() || file.getContentType() == null || 
-            !file.getContentType().equalsIgnoreCase("application/pdf")) {
+        if (file == null || file.isEmpty()) {
+            model.addAttribute("message", "Only PDF files are allowed.");
+            model.addAttribute("messageType", "danger");
+            return "uploadDocument";
+        }
 
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.equalsIgnoreCase("application/pdf")) {
             model.addAttribute("message", "Only PDF files are allowed.");
             model.addAttribute("messageType", "danger");
             return "uploadDocument";
@@ -119,55 +143,54 @@ public class DocumentController {
         } catch (Exception e) {
             model.addAttribute("message", "Upload failed: " + e.getMessage());
             model.addAttribute("messageType", "danger");
-            e.printStackTrace();
         }
 
         return "uploadDocument";
     }
 
 
-    @PostMapping("/patients/{patientId}/upload")
-    public String uploadDocument(@PathVariable Long patientId,
-                                  @RequestParam("file") MultipartFile file) throws IOException {
-        Patient patient = patientRepository.findById(patientId)
-            .orElseThrow(() -> new RuntimeException("Patient not found"));
+    // @PostMapping("/patients/{patientId}/upload")
+    // public String uploadDocument(@PathVariable Long patientId,
+    //                               @RequestParam("file") MultipartFile file) throws IOException {
+    //     Patient patient = patientRepository.findById(patientId)
+    //         .orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        String storedFileName = fileStorageService.storeFile(file);
+    //     String storedFileName = fileStorageService.storeFile(file);
 
-        Document doc = new Document();
-        doc.setFileName(file.getOriginalFilename());
-        // doc.setPdfFile(file.getBytes());
-        doc.setFilePath(storedFileName);
-        doc.setUploadDate(LocalDate.now());
-        doc.setPatient(patient);
+    //     Document doc = new Document();
+    //     doc.setFileName(file.getOriginalFilename());
+    //     // doc.setPdfFile(file.getBytes());
+    //     doc.setFilePath(storedFileName);
+    //     doc.setUploadDate(LocalDate.now());
+    //     doc.setPatient(patient);
 
-        documentRepository.save(doc);
+    //     documentRepository.save(doc);
 
-        return "redirect:/patients/" + patientId;
-    }
+    //     return "redirect:/patients/" + patientId;
+    // }
 
-    @GetMapping("/patients/{patientId}")
-    public String showPatientDocuments(@PathVariable Long patientId, Model model) {
-        Patient patient = patientRepository.findById(patientId)
-            .orElseThrow(() -> new RuntimeException("Patient not found"));
+    // @GetMapping("/patients/{patientId}")
+    // public String showPatientDocuments(@PathVariable Long patientId, Model model) {
+    //     Patient patient = patientRepository.findById(patientId)
+    //         .orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        model.addAttribute("patient", patient);
-        model.addAttribute("documents", documentRepository.findByPatientId(patientId));
-        return "patientDocuments";
-    }
+    //     model.addAttribute("patient", patient);
+    //     model.addAttribute("documents", documentRepository.findByPatientId(patientId));
+    //     return "patientDocuments";
+    // }
 
-    @GetMapping("/documents/{id}/download")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
-        Document document = documentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Document not found"));
+    // @GetMapping("/documents/{id}/download")
+    // public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
+    //     Document document = documentRepository.findById(id)
+    //             .orElseThrow(() -> new RuntimeException("Document not found"));
 
-        Resource resource = fileStorageService.loadFileAsResource(document.getFilePath());
+    //     Resource resource = fileStorageService.loadFileAsResource(document.getFilePath());
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getFileName() + "\"")
-                .body(resource);
-    }
+    //     return ResponseEntity.ok()
+    //             .contentType(MediaType.APPLICATION_PDF)
+    //             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getFileName() + "\"")
+    //             .body(resource);
+    // }
 
     // @GetMapping("/documents/{id}/download")
     // public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {

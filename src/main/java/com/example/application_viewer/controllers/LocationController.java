@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: LocationController.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.controllers;
 
 import java.util.List;

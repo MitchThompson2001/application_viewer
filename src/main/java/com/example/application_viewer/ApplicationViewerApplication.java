@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: ApplicationViewerApplication.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer;
 
 import org.springframework.boot.SpringApplication;

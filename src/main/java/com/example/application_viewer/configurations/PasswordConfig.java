@@ -1,3 +1,9 @@
+/*
+ * Name: Mitchell Thompson
+ * File: PasswordConfig.java
+ * Project: Data Viewer Application
+ */
+
 package com.example.application_viewer.configurations;
 
 import org.springframework.context.annotation.Bean;
