@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +46,47 @@ public class DocumentHistoryService {
 
     public List<DocumentHistory> listAllHistory() {
         return historyRepository.findAll();
+    }
+
+    public List<DocumentHistory> searchAndSortDocumentHistory(
+        Long id,
+        String username,
+        String fileName,
+        String action,
+        LocalDateTime timestamp,
+        String sortField,
+        String sortDir) {
+
+        Specification<DocumentHistory> spec = (root, query, cb) -> cb.conjunction();
+
+        if (id != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("id"), id));
+        }
+
+        if (username != null && !username.isEmpty()) {
+        spec = spec.and((root, query, cb) -> 
+            cb.like(cb.lower(root.get("username")), 
+            "%" + username + "%"));
+        }
+
+        if (fileName != null && !fileName.isEmpty()) {
+        spec = spec.and((root, query, cb) -> 
+            cb.like(cb.lower(root.get("fileName")), 
+            "%" + fileName + "%"));
+        }
+
+        if (action != null && !action.isEmpty()) {
+        spec = spec.and((root, query, cb) -> 
+            cb.like(cb.lower(root.get("action")), 
+            "%" + action + "%"));
+        }
+
+        if (timestamp != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("timestamp"), timestamp));
+        }
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+
+        return historyRepository.findAll(spec, sort);
     }
 }
