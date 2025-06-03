@@ -32,21 +32,24 @@ public class PatientController {
      */
     @GetMapping("/patient_list")
     public String searchPatient(
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String dob,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false, defaultValue = "firstName") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDir,
-            Model model) {
-        
-        boolean hasSearchInput = Stream.of(firstName, lastName, email, dob, phone)
+        @RequestParam(required = false) Long id,
+        @RequestParam(required = false) String firstName,
+        @RequestParam(required = false) String lastName,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String dob,
+        @RequestParam(required = false) String phone,
+        @RequestParam(required = false, defaultValue = "id") String sortField,
+        @RequestParam(required = false, defaultValue = "asc") String sortDir,
+        Model model) {
+
+        String id_str = (id != null) ? Long.toString(id) : "";
+        boolean hasSearchInput = Stream.of(id_str, firstName, lastName, email, dob, phone)
                                 .anyMatch(val -> val != null && !val.trim().isEmpty());
 
         List<Patient> patients;
         if (hasSearchInput) {
             patients = patientService.searchAndSortPatients(
+                id,
                 firstName, 
                 lastName, 
                 email, 
@@ -57,6 +60,7 @@ public class PatientController {
         } else {
             // Show all patients sorted, even if no filters
             patients = patientService.searchAndSortPatients(
+                null,
                 null, 
                 null, 
                 null, 
@@ -67,6 +71,7 @@ public class PatientController {
         }
 
         model.addAttribute("allPatList", patients);
+        model.addAttribute("id", id);
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("email", email);

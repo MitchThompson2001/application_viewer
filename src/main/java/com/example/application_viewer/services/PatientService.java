@@ -30,6 +30,7 @@ public class PatientService {
     }
 
     public List<Patient> searchAndSortPatients(
+        Long id,
         String firstName, 
         String lastName, 
         String email, 
@@ -39,6 +40,10 @@ public class PatientService {
         String sortDir) {
 
         Specification<Patient> spec = (root, query, cb) -> cb.conjunction();
+
+        if (id != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("id"), id));
+        }
 
         if (firstName != null && !firstName.isEmpty()) {
             spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
@@ -63,7 +68,7 @@ public class PatientService {
         }
 
         if (phone != null && !phone.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("phone")), "%" + phone.toLowerCase() + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("phone")), "%" + phone + "%"));
         }
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);

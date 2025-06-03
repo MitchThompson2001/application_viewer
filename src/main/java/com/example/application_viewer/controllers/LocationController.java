@@ -32,23 +32,26 @@ public class LocationController {
      */
     @GetMapping("/location_list")
     public String searchLocation(
-            @RequestParam(required = false) String phoneNumber,
-            @RequestParam(required = false) String faxNumber,
-            @RequestParam(required = false) String locationName,
-            @RequestParam(required = false) String streetAddress,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String state,
-            @RequestParam(required = false) String zipCode,
-            @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDir,
-            Model model) {
-        
-        boolean hasSearchInput = Stream.of(phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode)
+        @RequestParam(required = false) Long id,
+        @RequestParam(required = false) String phoneNumber,
+        @RequestParam(required = false) String faxNumber,
+        @RequestParam(required = false) String locationName,
+        @RequestParam(required = false) String streetAddress,
+        @RequestParam(required = false) String city,
+        @RequestParam(required = false) String state,
+        @RequestParam(required = false) String zipCode,
+        @RequestParam(required = false, defaultValue = "id") String sortField,
+        @RequestParam(required = false, defaultValue = "asc") String sortDir,
+        Model model) {
+            
+        String id_str = (id != null) ? Long.toString(id) : "";
+        boolean hasSearchInput = Stream.of(id_str, phoneNumber, faxNumber, locationName, streetAddress, city, state, zipCode)
                                 .anyMatch(val -> val != null && !val.trim().isEmpty());
 
         List<Location> locations;
         if (hasSearchInput) {
             locations = locationService.searchAndSortLocations(
+                id,
                 phoneNumber, 
                 faxNumber, 
                 locationName, 
@@ -61,6 +64,7 @@ public class LocationController {
         } else {
             // Show all locations sorted, even if no filters
             locations = locationService.searchAndSortLocations(
+                null,
                 null, 
                 null,
                 null, 
@@ -73,6 +77,7 @@ public class LocationController {
         }
 
         model.addAttribute("allLocList", locations);
+        model.addAttribute("id", id);
         model.addAttribute("phoneNumber", phoneNumber);
         model.addAttribute("faxNumber", faxNumber);
         model.addAttribute("locationName", locationName);

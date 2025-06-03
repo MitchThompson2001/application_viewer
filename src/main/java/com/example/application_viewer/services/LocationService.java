@@ -27,6 +27,7 @@ public class LocationService {
     }
 
     public List<Location> searchAndSortLocations(
+        Long id,
         String phoneNumber, 
         String faxNumber, 
         String locationName, 
@@ -38,6 +39,10 @@ public class LocationService {
         String sortDir) {
 
         Specification<Location> spec = (root, query, cb) -> cb.conjunction();
+
+        if (id != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("id"), id));
+        }
 
         if (phoneNumber != null && !phoneNumber.isEmpty()) {
         spec = spec.and((root, query, cb) -> 
