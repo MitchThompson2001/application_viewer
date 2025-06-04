@@ -8,8 +8,6 @@ package com.example.application_viewer.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,9 +39,6 @@ public class DocumentHistoryController {
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
-
-        boolean hasSearchInput = Stream.of(id, username, fileName, action, startTimestamp, endTimestamp)
-                                    .anyMatch(Objects::nonNull);
 
         List<DocumentHistory> history = documentHistoryService.searchAndSortDocumentHistory(
             id, username, fileName, action, startTimestamp, endTimestamp, sortField, sortDir);
