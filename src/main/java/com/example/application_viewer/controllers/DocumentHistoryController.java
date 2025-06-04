@@ -36,7 +36,7 @@ public class DocumentHistoryController {
         @RequestParam(required = false) String username,
         @RequestParam(required = false) String fileName,
         @RequestParam(required = false) String action,
-        @RequestParam(required = false) @DateTimeFormat(pattern = "MM-dd-yyyy HH:mm:ss") LocalDateTime timestamp,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime timestamp,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {

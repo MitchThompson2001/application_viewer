@@ -33,10 +33,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(
                     "/login", 
-                    "/h2-console/**", 
-                    "/add_user", 
-                    "/save_user", 
-                    "/save_patient", 
+                    "/h2-console/**",  
                     "/css/**", 
                     "/js/**", 
                     "/test-auth"
