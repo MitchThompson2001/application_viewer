@@ -12,8 +12,9 @@ A web-based viewer application that allows users to query and view patient data 
 
 3. Open a new browser window and search localhost:8080
 
-    * If you are not signed in already, you will be directed to sign in or register an account
-    * If you are signed in, you will be directed to the homepage
+    * If you are not signed in already, you will be directed to sign in or register an account.
+
+    * If you are signed in, you will be directed to the homepage.
 
 ## Security
 
@@ -25,6 +26,13 @@ This progam makes use of:
 
 * spring-security-core
 
+Users have restricted access to webpages unless they are authenticated. Once
+they are logged in, they will have controlled access to other webpages.
+
 ## Future Improvements
 
-* More robust user system for 
+* More robust system for creating an account
+
+* Modify column size for each table view
+
+* Utilize the user roles to manage access to features
