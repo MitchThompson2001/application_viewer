@@ -36,11 +36,13 @@ public interface DocumentHistoryRepository extends JpaRepository<DocumentHistory
        "(:username IS NULL OR dh.username = :username) AND" +
        "(:fileName IS NULL OR LOWER(dh.fileName) LIKE LOWER(CONCAT('%', :fileName, '%'))) AND " +
        "(:action IS NULL OR dh.action = :action) AND" +
-       "(:timestamp IS NULL OR dh.timestamp = :timestamp)")
+       "(:startTimestamp IS NULL OR dh.timestamp >= :startTimestamp) AND " +
+       "(:endTimestamp IS NULL OR dh.timestamp <= :endTimestamp)")
     List<DocumentHistory> searchDocumentHistory(
       @Param("id") Long id,
       @Param("username") String username,
       @Param("fileName") String fileName,
       @Param("action") String action,
-      @Param("timestamp") LocalDateTime timestamp);
+      @Param("startTimestamp") LocalDateTime startTimestamp,
+      @Param("endTimestamp") LocalDateTime endTimestamp);
 }

@@ -36,49 +36,30 @@ public class DocumentHistoryController {
         @RequestParam(required = false) String username,
         @RequestParam(required = false) String fileName,
         @RequestParam(required = false) String action,
-        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime timestamp,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startTimestamp,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endTimestamp,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
-        boolean hasSearchInput = Stream.of(
-            id, 
-            username, 
-            fileName, 
-            action, 
-            timestamp).anyMatch(Objects::nonNull);
+        boolean hasSearchInput = Stream.of(id, username, fileName, action, startTimestamp, endTimestamp)
+                                    .anyMatch(Objects::nonNull);
 
-        List<DocumentHistory> history;
-        if (hasSearchInput) {
-            history = documentHistoryService.searchAndSortDocumentHistory(
-                id,
-                username, 
-                fileName,
-                action, 
-                timestamp,
-                sortField,
-                sortDir);
-        } else {
-            history = documentHistoryService.searchAndSortDocumentHistory(
-                null,
-                null, 
-                null,
-                null, 
-                null,
-                sortField,
-                sortDir);
-        }
+        List<DocumentHistory> history = documentHistoryService.searchAndSortDocumentHistory(
+            id, username, fileName, action, startTimestamp, endTimestamp, sortField, sortDir);
 
         model.addAttribute("history", history);
         model.addAttribute("id", id);
         model.addAttribute("username", username);
         model.addAttribute("fileName", fileName);
         model.addAttribute("action", action);
-        model.addAttribute("timestamp", timestamp);
+        model.addAttribute("startTimestamp", startTimestamp);
+        model.addAttribute("endTimestamp", endTimestamp);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         return "historyList";
     }
+
 }

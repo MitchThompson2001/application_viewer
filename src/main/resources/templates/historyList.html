@@ -54,9 +54,14 @@ Project: Data Viewer Application -->
                     <input type="text" id="fileName" name="fileName" class="form-control" th:value="${fileName}" />
                 </div>
                 <div class="mb-3">
-                    <label for="timestamp" class="form-label">Timestamp</label>
-                    <input type="datetime-local" id="timestamp" name="timestamp" class="form-control"
-                        th:value="${#temporals.format(timestamp, 'yyyy-MM-dd''T''HH:mm')}"/>
+                    <label for="startTimestamp" class="form-label">Start Timestamp</label>
+                    <input type="datetime-local" id="startTimestamp" name="startTimestamp" class="form-control"
+                        th:value="${#temporals.format(startTimestamp, 'yyyy-MM-dd''T''HH:mm')}" />
+                </div>
+                <div class="mb-3">
+                    <label for="endTimestamp" class="form-label">End Timestamp</label>
+                    <input type="datetime-local" id="endTimestamp" name="endTimestamp" class="form-control"
+                        th:value="${#temporals.format(endTimestamp, 'yyyy-MM-dd''T''HH:mm')}" />
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-2">Search</button>
                 <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn">Reset</button>

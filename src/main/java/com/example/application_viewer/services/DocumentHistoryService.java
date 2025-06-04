@@ -53,7 +53,8 @@ public class DocumentHistoryService {
         String username,
         String fileName,
         String action,
-        LocalDateTime timestamp,
+        LocalDateTime startTimestamp,
+        LocalDateTime endTimestamp,
         String sortField,
         String sortDir) {
 
@@ -64,25 +65,23 @@ public class DocumentHistoryService {
         }
 
         if (username != null && !username.isEmpty()) {
-        spec = spec.and((root, query, cb) -> 
-            cb.like(cb.lower(root.get("username")), 
-            "%" + username + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("username")), "%" + username.toLowerCase() + "%"));
         }
 
         if (fileName != null && !fileName.isEmpty()) {
-        spec = spec.and((root, query, cb) -> 
-            cb.like(cb.lower(root.get("fileName")), 
-            "%" + fileName + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("fileName")), "%" + fileName.toLowerCase() + "%"));
         }
 
         if (action != null && !action.isEmpty()) {
-        spec = spec.and((root, query, cb) -> 
-            cb.like(cb.lower(root.get("action")), 
-            "%" + action + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("action")), "%" + action.toLowerCase() + "%"));
         }
 
-        if (timestamp != null) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("timestamp"), timestamp));
+        if (startTimestamp != null && endTimestamp != null) {
+            spec = spec.and((root, query, cb) -> cb.between(root.get("timestamp"), startTimestamp, endTimestamp));
+        } else if (startTimestamp != null) {
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("timestamp"), startTimestamp));
+        } else if (endTimestamp != null) {
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("timestamp"), endTimestamp));
         }
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
