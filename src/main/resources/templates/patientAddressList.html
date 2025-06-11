@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patient Address List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #cccccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Patient Address List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th><a th:href="@{|?sortField=id&sortDir=${reverseSortDir}|}">ID</a></th>
+                <th>Patient</th>
+                <th>Active</th>
+                <th>Address Type</th>
+                <th>Residence Type</th>
+                <th>Address A</th>
+                <th>Address B</th>
+                <th>City</th>
+                <th>State</th>
+                <th>County</th>
+                <th>Zip Code</th>
+                <th>Country</th>
+                <th>Geo Code</th>
+                <th>Electric Company</th>
+                <th>Service Loc. Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="addr : ${allPatAddrList}">
+                <td th:text="${addr.id}">1</td>
+                <td th:text="${addr.patient != null ? addr.patient.name : 'N/A'}">John Doe</td>
+                <td th:text="${addr.active}">true</td>
+                <td th:text="${addr.addressType}">Home</td>
+                <td th:text="${addr.residenceType}">Owned</td>
+                <td th:text="${addr.addressA}">123 Main St</td>
+                <td th:text="${addr.addressB}">Apt 4B</td>
+                <td th:text="${addr.city}">New York</td>
+                <td th:text="${addr.state}">NY</td>
+                <td th:text="${addr.county}">Kings</td>
+                <td th:text="${addr.zipCode}">11201</td>
+                <td th:text="${addr.country}">USA</td>
+                <td th:text="${addr.geoCode}">40.7128,-74.0060</td>
+                <td th:text="${addr.electricCompany}">Con Edison</td>
+                <td th:text="${addr.serviceLocNum}">123456789</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

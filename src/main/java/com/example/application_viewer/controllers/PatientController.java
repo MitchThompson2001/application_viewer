@@ -7,8 +7,6 @@
 package com.example.application_viewer.controllers;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +47,9 @@ public class PatientController {
         model.addAttribute("allPatList", patients);
         model.addAttribute("id", id);
         model.addAttribute("patientDemographic", patientDemographic);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         return "patientList";
     }

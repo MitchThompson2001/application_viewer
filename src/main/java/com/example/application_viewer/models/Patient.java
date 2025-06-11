@@ -37,11 +37,11 @@ public class Patient {
         orphanRemoval = true)
     private PatientAddress patientAddress;
 
-    // @OneToOne(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private PatientAttribute patientAttribute;
+    @OneToOne(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private PatientAttribute patientAttribute;
 
     // @OneToMany(
     //     mappedBy = "patient", 
@@ -115,9 +115,9 @@ public class Patient {
         // patientTransactions = new HashSet<>();
     }
 
-    // public void setPatientAddress(PatientAddress patientAddress) {
-    //     this.patientAddress = patientAddress;
-    // } 
+    public void setPatientAddress(PatientAddress patientAddress) {
+        this.patientAddress = patientAddress;
+    } 
     // public void setPatientAttribute(PatientAttribute patientAttribute) {
     //     this.patientAttribute = patientAttribute;
     // }
@@ -131,9 +131,9 @@ public class Patient {
     public long getId() {
         return this.id;
     }
-    // public PatientAddress getPatientAddress() {
-    //     return this.patientAddress;
-    // }
+    public PatientAddress getPatientAddress() {
+        return this.patientAddress;
+    }
     // public PatientAttribute getPatientAttribute() {
     //     return this.patientAttribute;
     // }

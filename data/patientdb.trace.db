@@ -935,3 +935,10 @@ INSERT INTO patient_demographics (...) VALUES (
   'test@example.com', 'test2@example.com', '1980-01-01', '123', '456', '0000',
   '6.0', '180', 'Male', 'Test patient', 'HCTEST', 'LOCTEST', '2024-01-01'
 ) [42001-232]
+2025-06-11 14:56:16.326334-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ADDRESS" not found; SQL statement:
+INSERT INTO address (
+    patient_id, active, address_type, residence_type, address_a, address_b,
+    city, state, county, zip_code, country, geo_code, electric_company, service_loc_num
+) VALUES 
+(1, TRUE, 'Delivery', 'Residential', '123 Main St', 'Apt 4B', 'Springfield', 'IL', 'Sangamon', '62704', 'USA', 'GC001', 'Springfield Electric', 'SLN001') [42102-232]

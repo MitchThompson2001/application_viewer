@@ -36,10 +36,11 @@ public class SecurityConfig {
                     "/register",
                     "/h2-console/**",
                     "/add_user",
-                    "/patient_demographic_list",
                     "/css/**", 
                     "/js/**", 
-                    "/test-auth"
+                    "/test-auth",
+                    "/patient_demographic_list",
+                    "/patient_address_list"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
