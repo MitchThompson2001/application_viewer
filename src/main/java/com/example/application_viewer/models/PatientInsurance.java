@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,6 +54,7 @@ public class PatientInsurance {
     @Column(name = "pay_id")
     private String payId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "hierarchy")
     private HierarchyType hierarchy;
 
@@ -80,10 +83,12 @@ public class PatientInsurance {
     @Column(name = "insured_last_four_ssn")
     private String insuredLastFourSsn;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "insured_sex")
     private SexType insuredSex;
     // *************************************************************************
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "claim_type")
     private ClaimType claimType;
 
@@ -103,12 +108,14 @@ public class PatientInsurance {
     @Column(name = "pay_later_plan_number")
     private String payLaterPlanNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "msp_reason")
     private MspReason mspReason;
 
     @Column(name = "yearly_deductible")
     private double yearlyDeductible;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "health_savings_account")
     private HealthSavingsAccount healthSavingsAccount;
 

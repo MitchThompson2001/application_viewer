@@ -50,10 +50,26 @@ public class PatientDemographicService {
         String sortDir
     ) {
         Specification<PatientDemographic> spec = PatientDemographicSpecification.filterBy(
-            id, patient, patientType, active, firstName, lastName, origin, emailA, emailB,
-            dob, phoneA, phoneB, ssnLastFour, height, weight, sex, notes,
-            homeCompanyNum, homeCompanyLoc, lastUpdated
-        );
+            id, 
+            patient, 
+            patientType, 
+            active, 
+            firstName, 
+            lastName, 
+            origin, 
+            emailA, 
+            emailB,
+            dob, 
+            phoneA, 
+            phoneB, 
+            ssnLastFour, 
+            height, 
+            weight, 
+            sex, 
+            notes,
+            homeCompanyNum, 
+            homeCompanyLoc, 
+            lastUpdated);
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
 

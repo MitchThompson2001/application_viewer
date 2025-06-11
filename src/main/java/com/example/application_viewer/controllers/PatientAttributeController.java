@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.application_viewer.components.AddressType;
-import com.example.application_viewer.components.ResidenceType;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAttribute;
 import com.example.application_viewer.services.PatientAttributeService;
