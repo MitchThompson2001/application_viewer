@@ -87,6 +87,7 @@ public class PatientInsuranceController {
             sortField, 
             sortDir);
 
+        model.addAttribute("allPatInsList", insurances);
         model.addAttribute("id", id);
         model.addAttribute("patient", patient);
         model.addAttribute("active", active);
