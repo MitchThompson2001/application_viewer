@@ -6,9 +6,14 @@
 
 package com.example.application_viewer.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /*
@@ -44,7 +49,22 @@ public class Location {
     @Column(name = "zip_code")
     private String zipCode;
 
-    public Location() {}
+    @OneToMany(
+        mappedBy = "location", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientTransaction> patientTransactions;
+
+    @OneToMany(
+        mappedBy = "location", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientTicket> patientTickets;
+
+    public Location() {
+        patientTransactions = new HashSet<>();
+        patientTickets = new HashSet<>();
+    }
 
     public void setLocationID(long id) {
         this.id = id;
@@ -94,6 +114,43 @@ public class Location {
     }
     public String getZipCode() {
         return this.zipCode;
+    }
+    public Set<PatientTransaction> getPatientTransactions() {
+        return this.patientTransactions;
+    }
+    public PatientTransaction getPatientTransaction(long id) {
+        PatientTransaction temp = null;
+        for(PatientTransaction val : this.patientTransactions) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
+    public PatientTicket getPatientTicket(long id) {
+        PatientTicket temp = null;
+        for(PatientTicket val : this.patientTickets) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
+
+    public void addPatientTransaction(PatientTransaction patientTransaction) {
+        patientTransactions.add(patientTransaction);
+    }
+    public void addPatientTicket(PatientTicket patientTicket) {
+        patientTickets.add(patientTicket);
+    }
+
+    public void removePatientTransaction(PatientTransaction patientTransaction) {
+        patientTransactions.remove(patientTransaction);
+    }
+    public void removePatientTicket(PatientTicket patientTicket) {
+        patientTickets.remove(patientTicket);
     }
 }
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.application_viewer.models.Patient;
+import com.example.application_viewer.models.PatientDemographic;
 import com.example.application_viewer.services.PatientService;
 
 /*
@@ -34,57 +35,20 @@ public class PatientController {
     @GetMapping("/patient_list")
     public String searchPatient(
         @RequestParam(required = false) Long id,
-        @RequestParam(required = false) String firstName,
-        @RequestParam(required = false) String lastName,
-        @RequestParam(required = false) String email,
-        @RequestParam(required = false) String dob,
-        @RequestParam(required = false) String phone,
+        @RequestParam(required = false) PatientDemographic patientDemographic,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
-        boolean hasSearchInput = Stream.of(
-            id, 
-            firstName, 
-            lastName, 
-            email, 
-            dob, 
-            phone).anyMatch(Objects::nonNull);
-
-        List<Patient> patients;
-        if (hasSearchInput) {
-            patients = patientService.searchAndSortPatients(
-                id,
-                firstName, 
-                lastName, 
-                email, 
-                dob, 
-                phone, 
-                sortField, 
-                sortDir);
-        } else {
-            // Show all patients sorted, even if no filters
-            patients = patientService.searchAndSortPatients(
-                null,
-                null, 
-                null, 
-                null, 
-                null, 
-                null, 
-                sortField, 
-                sortDir);
-        }
+        List<Patient> patients = patientService.searchAndSortPatients(
+            id,
+            patientDemographic,
+            sortField, 
+            sortDir);
 
         model.addAttribute("allPatList", patients);
         model.addAttribute("id", id);
-        model.addAttribute("firstName", firstName);
-        model.addAttribute("lastName", lastName);
-        model.addAttribute("email", email);
-        model.addAttribute("dob", dob);
-        model.addAttribute("phone", phone);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("patientDemographic", patientDemographic);
 
         return "patientList";
     }
