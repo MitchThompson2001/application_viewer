@@ -1,5 +1,9 @@
 package com.example.application_viewer.models;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,8 +30,9 @@ public class PatientAttribute {
     @Column(name = "active")
     private boolean active;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM-dd-yyyy")
     @Column(name = "effective_date")
-    private String effectiveDate;
+    private LocalDate effectiveDate;
 
     @Column(name = "attribute")
     private String attribute;
@@ -44,7 +49,7 @@ public class PatientAttribute {
     public void setActive(boolean active) {
         this.active = active;
     }
-    public void setEffectiveDate(String effectiveDate) {
+    public void setEffectiveDate(LocalDate effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
     public void setAttribute(String attribute) {
@@ -60,7 +65,7 @@ public class PatientAttribute {
     public boolean isActive() {
         return this.active;
     }
-    public String getEffectiveDate() {
+    public LocalDate getEffectiveDate() {
         return this.effectiveDate;
     }
     public String getAttribute() {

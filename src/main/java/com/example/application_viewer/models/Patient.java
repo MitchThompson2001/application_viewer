@@ -73,11 +73,11 @@ public class Patient {
     //     orphanRemoval = true)
     // private final Set<PatientDocument> patientDocuments;
 
-    // @OneToOne(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private PatientInsurance patientInsurance;
+    @OneToOne(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private PatientInsurance patientInsurance;
 
     // @OneToMany(
     //     mappedBy = "patient", 
@@ -118,15 +118,15 @@ public class Patient {
     public void setPatientAddress(PatientAddress patientAddress) {
         this.patientAddress = patientAddress;
     } 
-    // public void setPatientAttribute(PatientAttribute patientAttribute) {
-    //     this.patientAttribute = patientAttribute;
-    // }
+    public void setPatientAttribute(PatientAttribute patientAttribute) {
+        this.patientAttribute = patientAttribute;
+    }
     public void setPatientDemographic(PatientDemographic patientDemographic) {
         this.patientDemographic = patientDemographic;
     }
-    // public void setPatientInsurance(PatientInsurance patientInsurance) {
-    //     this.patientInsurance = patientInsurance;
-    // }
+    public void setPatientInsurance(PatientInsurance patientInsurance) {
+        this.patientInsurance = patientInsurance;
+    }
 
     public long getId() {
         return this.id;
@@ -134,9 +134,9 @@ public class Patient {
     public PatientAddress getPatientAddress() {
         return this.patientAddress;
     }
-    // public PatientAttribute getPatientAttribute() {
-    //     return this.patientAttribute;
-    // }
+    public PatientAttribute getPatientAttribute() {
+        return this.patientAttribute;
+    }
     // public Set<PatientAuthAndCert> getPatientAuthAndCerts() {
     //     return this.patientAuthAndCerts;
     // }
@@ -192,9 +192,9 @@ public class Patient {
     //     }
     //     return temp;
     // }
-    // public PatientInsurance getPatientInsurance() {
-    //     return this.patientInsurance;
-    // }
+    public PatientInsurance getPatientInsurance() {
+        return this.patientInsurance;
+    }
     // public Set<PatientNote> getPatientNotes() {
     //     return this.patientNotes;
     // }
