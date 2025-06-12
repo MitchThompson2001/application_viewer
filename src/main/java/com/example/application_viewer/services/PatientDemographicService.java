@@ -12,8 +12,8 @@ import com.example.application_viewer.components.PatientType;
 import com.example.application_viewer.components.SexType;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientDemographic;
-import com.example.application_viewer.specifications.PatientDemographicSpecification;
 import com.example.application_viewer.repositories.PatientDemographicRepository;
+import com.example.application_viewer.specifications.PatientDemographicSpecification;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -69,7 +69,8 @@ public class PatientDemographicService {
             notes,
             homeCompanyNum, 
             homeCompanyLoc, 
-            lastUpdated);
+            lastUpdated
+        );
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
 
