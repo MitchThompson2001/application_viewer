@@ -97,11 +97,11 @@ public class Patient {
         orphanRemoval = true)
     private final Set<PatientTicket> patientTickets;
 
-    // @OneToMany(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private final Set<PatientTransaction> patientTransactions;
+    @OneToMany(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientTransaction> patientTransactions;
 
 
     public Patient() {
@@ -112,7 +112,7 @@ public class Patient {
         patientNotes = new HashSet<>();
         patientOrders = new HashSet<>();
         patientTickets = new HashSet<>();
-        // patientTransactions = new HashSet<>();
+        patientTransactions = new HashSet<>();
     }
 
     public void setPatientAddress(PatientAddress patientAddress) {
@@ -234,19 +234,19 @@ public class Patient {
         }
         return temp;
     } 
-    // public Set<PatientTransaction> getPatientTransactions() {
-    //     return this.patientTransactions;
-    // }
-    // public PatientTransaction getPatientTransaction(long id) {
-    //     PatientTransaction temp = null;
-    //     for(PatientTransaction val : this.patientTransactions) {
-    //         if (val.getId() == id) {
-    //             temp = val;
-    //             break;
-    //         }
-    //     }
-    //     return temp;
-    // }
+    public Set<PatientTransaction> getPatientTransactions() {
+        return this.patientTransactions;
+    }
+    public PatientTransaction getPatientTransaction(long id) {
+        PatientTransaction temp = null;
+        for(PatientTransaction val : this.patientTransactions) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
 
     public void addPatientAuthAndCert(PatientAuthAndCert patientAuthAndCert) {
         this.patientAuthAndCerts.add(patientAuthAndCert);
@@ -269,9 +269,9 @@ public class Patient {
     public void addPatientTicket(PatientTicket patientTicket) {
         this.patientTickets.add(patientTicket);
     }
-    // public void addPatientTransaction(PatientTransaction patientTransaction) {
-    //     this.patientTransactions.add(patientTransaction);
-    // }
+    public void addPatientTransaction(PatientTransaction patientTransaction) {
+        this.patientTransactions.add(patientTransaction);
+    }
 
     public void removePatientAuthAndCert(PatientAuthAndCert patientAuthAndCert) {
         this.patientAuthAndCerts.remove(patientAuthAndCert);
@@ -294,7 +294,7 @@ public class Patient {
     public void removePatientTicket(PatientTicket patientTicket) {
         this.patientTickets.remove(patientTicket);
     }
-    // public void removePatientTransaction(PatientTransaction patientTransaction) {
-    //     this.patientTransactions.remove(patientTransaction);
-    // }
+    public void removePatientTransaction(PatientTransaction patientTransaction) {
+        this.patientTransactions.remove(patientTransaction);
+    }
 }
