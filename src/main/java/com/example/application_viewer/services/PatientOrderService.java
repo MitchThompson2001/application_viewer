@@ -2,7 +2,6 @@ package com.example.application_viewer.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -41,10 +40,8 @@ public class PatientOrderService {
         LocalDate referralDate,
         String lastUpdatedBy,
         LocalDate lastUpdatedDate,
-        Long patientTicketId,
-        Long patientTransactionId,
-        Set<PatientTicket> tickets,
-        Set<PatientTransaction> transactions,
+        PatientTicket patientTicket,
+        PatientTransaction patientTransaction,
         String sortField,
         String sortDir
     ) {
@@ -67,10 +64,8 @@ public class PatientOrderService {
             referralDate, 
             lastUpdatedBy, 
             lastUpdatedDate, 
-            patientTicketId, 
-            patientTransactionId, 
-            tickets, 
-            transactions
+            patientTicket, 
+            patientTransaction
         );
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);

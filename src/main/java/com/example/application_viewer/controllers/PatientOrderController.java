@@ -2,7 +2,6 @@ package com.example.application_viewer.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,10 +40,8 @@ public class PatientOrderController {
         @RequestParam(required = false) LocalDate referralDate,
         @RequestParam(required = false) String lastUpdatedBy,
         @RequestParam(required = false) LocalDate lastUpdatedDate,
-        @RequestParam(required = false) Long patientTicketId,
-        @RequestParam(required = false) Long patientTransactionId,
-        @RequestParam(required = false) Set<PatientTicket> tickets,
-        @RequestParam(required = false) Set<PatientTransaction> transactions,
+        @RequestParam(required = false) PatientTicket patientTicket,
+        @RequestParam(required = false) PatientTransaction patientTransaction,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model
@@ -68,10 +65,8 @@ public class PatientOrderController {
             referralDate, 
             lastUpdatedBy, 
             lastUpdatedDate, 
-            patientTicketId, 
-            patientTransactionId, 
-            tickets, 
-            transactions, 
+            patientTicket, 
+            patientTransaction,
             sortField, 
             sortDir
         );
@@ -95,10 +90,8 @@ public class PatientOrderController {
         model.addAttribute("referralDate", referralDate);
         model.addAttribute("lastUpdatedBy", lastUpdatedBy);
         model.addAttribute("lastUpdatedDate", lastUpdatedDate);
-        model.addAttribute("patientTicketId", patientTicketId);
-        model.addAttribute("patientTransactionId", patientTransactionId);
-        model.addAttribute("tickets", tickets);
-        model.addAttribute("transactions", transactions);
+        model.addAttribute("patientTicket", patientTicket);
+        model.addAttribute("patientTransaction", patientTransaction);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");

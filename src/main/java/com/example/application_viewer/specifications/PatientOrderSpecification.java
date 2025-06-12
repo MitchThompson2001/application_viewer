@@ -3,7 +3,6 @@ package com.example.application_viewer.specifications;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -38,10 +37,8 @@ public class PatientOrderSpecification {
         LocalDate referralDate,
         String lastUpdatedBy,
         LocalDate lastUpdatedDate,
-        Long patientTicketId,
-        Long patientTransactionId,
-        Set<PatientTicket> tickets,
-        Set<PatientTransaction> transactions
+        PatientTicket patientTicket,
+        PatientTransaction patientTransaction
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -64,13 +61,13 @@ public class PatientOrderSpecification {
             if (referralDate != null) predicates.add(cb.equal(root.get("referralDate"), referralDate));
             if (lastUpdatedBy != null) predicates.add(cb.like(cb.lower(root.get("lastUpdatedBy")), "%" + lastUpdatedBy.toLowerCase() + "%"));
             if (lastUpdatedDate != null) predicates.add(cb.equal(root.get("lastUpdatedDate"), lastUpdatedDate));
-            if (patientTicketId != null) {
-                Join<PatientOrder, PatientTicket> ticketJoin = root.join("tickets", JoinType.INNER);
-                predicates.add(cb.equal(ticketJoin.get("id"), patientTicketId));
+            if (patientTicket != null) {
+                Join<PatientOrder, PatientTicket> ticketJoin = root.join("patient_tickets", JoinType.INNER);
+                predicates.add(cb.equal(ticketJoin, patientTicket));
             }
-            if (patientTransactionId != null) {
-                Join<PatientOrder, PatientTransaction> transactionJoin = root.join("transactions", JoinType.INNER);
-                predicates.add(cb.equal(transactionJoin.get("id"), patientTransactionId));
+            if (patientTransaction != null) {
+                Join<PatientOrder, PatientTransaction> ticketJoin = root.join("patient_transactions", JoinType.INNER);
+                predicates.add(cb.equal(ticketJoin, patientTransaction));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

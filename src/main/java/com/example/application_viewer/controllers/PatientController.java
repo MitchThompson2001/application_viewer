@@ -15,7 +15,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.application_viewer.models.Patient;
+import com.example.application_viewer.models.PatientAddress;
+import com.example.application_viewer.models.PatientAttribute;
+import com.example.application_viewer.models.PatientAuthAndCert;
+import com.example.application_viewer.models.PatientContact;
 import com.example.application_viewer.models.PatientDemographic;
+import com.example.application_viewer.models.PatientDiagnosisCode;
+import com.example.application_viewer.models.PatientDocument;
+import com.example.application_viewer.models.PatientInsurance;
+import com.example.application_viewer.models.PatientNote;
+import com.example.application_viewer.models.PatientOrder;
+import com.example.application_viewer.models.PatientTicket;
+import com.example.application_viewer.models.PatientTransaction;
 import com.example.application_viewer.services.PatientService;
 
 /*
@@ -33,20 +44,54 @@ public class PatientController {
     @GetMapping("/patient_list")
     public String searchPatient(
         @RequestParam(required = false) Long id,
+        @RequestParam(required = false) PatientAddress patientAddress,
+        @RequestParam(required = false) PatientAttribute patientAttribute,
+        @RequestParam(required = false) PatientAuthAndCert patientAuthAndCert,
+        @RequestParam(required = false) PatientContact patientContact,
         @RequestParam(required = false) PatientDemographic patientDemographic,
+        @RequestParam(required = false) PatientDiagnosisCode patientDiagnosisCode,
+        @RequestParam(required = false) PatientDocument patientDocument,
+        @RequestParam(required = false) PatientInsurance patientInsurance,
+        @RequestParam(required = false) PatientNote patientNote,
+        @RequestParam(required = false) PatientOrder patientOrder,
+        @RequestParam(required = false) PatientTicket patientTicket,
+        @RequestParam(required = false) PatientTransaction patientTransaction,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
 
         List<Patient> patients = patientService.searchAndSortPatients(
-            id,
-            patientDemographic,
-            sortField, 
-            sortDir);
+            id, 
+            patientAddress, 
+            patientAttribute, 
+            patientAuthAndCert, 
+            patientContact, 
+            patientDemographic, 
+            patientDiagnosisCode, 
+            patientDocument, 
+            patientInsurance, 
+            patientNote, 
+            patientOrder, 
+            patientTicket,
+            patientTransaction,
+            sortField,
+            sortDir
+        );
 
         model.addAttribute("allPatList", patients);
         model.addAttribute("id", id);
+        model.addAttribute("patientAddress", patientAddress);
+        model.addAttribute("patientAttribute", patientAttribute);
+        model.addAttribute("patientAuthAndCert", patientAuthAndCert);
+        model.addAttribute("patientContact", patientContact);
         model.addAttribute("patientDemographic", patientDemographic);
+        model.addAttribute("patientDiagnosisCode", patientDiagnosisCode);
+        model.addAttribute("patientDocument", patientDocument);
+        model.addAttribute("patientInsurance", patientInsurance);
+        model.addAttribute("patientNote", patientNote);
+        model.addAttribute("patientOrder", patientOrder);
+        model.addAttribute("patientTicket", patientTicket);
+        model.addAttribute("patientTransaction", patientTransaction);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
