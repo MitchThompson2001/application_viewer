@@ -61,11 +61,11 @@ public class Patient {
         orphanRemoval = true)
     private PatientDemographic patientDemographic;
 
-    // @OneToMany(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private final Set<PatientDiagnosisCode> patientDiagnosisCodes;
+    @OneToMany(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientDiagnosisCode> patientDiagnosisCodes;
 
     // @OneToMany(
     //     mappedBy = "patient", 
@@ -107,7 +107,7 @@ public class Patient {
     public Patient() {
         patientAuthAndCerts = new HashSet<>();
         patientContacts = new HashSet<>();
-        // patientDiagnosisCodes = new HashSet<>();
+        patientDiagnosisCodes = new HashSet<>();
         // patientDocuments = new HashSet<>();
         // patientNotes = new HashSet<>();
         // patientOrders = new HashSet<>();
@@ -166,19 +166,19 @@ public class Patient {
     public PatientDemographic getPatientDemographic() {
         return this.patientDemographic;
     }
-    // public Set<PatientDiagnosisCode> getPatientDiagnosisCodes() {
-    //     return this.patientDiagnosisCodes;
-    // }
-    // public PatientDiagnosisCode getPatientDiagnosisCode(long id) {
-    //     PatientDiagnosisCode temp = null;
-    //     for(PatientDiagnosisCode val : this.patientDiagnosisCodes) {
-    //         if (val.getId() == id) {
-    //             temp = val;
-    //             break;
-    //         }
-    //     }
-    //     return temp;
-    // }
+    public Set<PatientDiagnosisCode> getPatientDiagnosisCodes() {
+        return this.patientDiagnosisCodes;
+    }
+    public PatientDiagnosisCode getPatientDiagnosisCode(long id) {
+        PatientDiagnosisCode temp = null;
+        for(PatientDiagnosisCode val : this.patientDiagnosisCodes) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
     // public Set<PatientDocument> getPatientDocuments() {
     //     return this.patientDocuments;
     // }
@@ -254,9 +254,9 @@ public class Patient {
     public void addPatientContact(PatientContact patientContact) {
         this.patientContacts.add(patientContact);
     }
-    // public void addPatientDiagnosisCode(PatientDiagnosisCode patientDiagnosisCode) {
-    //     this.patientDiagnosisCodes.add(patientDiagnosisCode);
-    // }
+    public void addPatientDiagnosisCode(PatientDiagnosisCode patientDiagnosisCode) {
+        this.patientDiagnosisCodes.add(patientDiagnosisCode);
+    }
     // public void addPatientDocument(PatientDocument patientDocument) {
     //     this.patientDocuments.add(patientDocument);
     // }
@@ -279,9 +279,9 @@ public class Patient {
     public void removePatientContact(PatientContact patientContact) {
         this.patientContacts.remove(patientContact);
     }
-    // public void removePatientDiagnosisCode(PatientDiagnosisCode patientDiagnosisCode) {
-    //     this.patientDiagnosisCodes.remove(patientDiagnosisCode);
-    // }
+    public void removePatientDiagnosisCode(PatientDiagnosisCode patientDiagnosisCode) {
+        this.patientDiagnosisCodes.remove(patientDiagnosisCode);
+    }
     // public void removePatientDocument(PatientDocument patientDocument) {
     //     this.patientDocuments.remove(patientDocument);
     // }

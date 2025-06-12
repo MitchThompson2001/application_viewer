@@ -1,7 +1,7 @@
 package com.example.application_viewer.controllers;
 
-import java.util.List;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.application_viewer.models.PatientDemographic;
-import com.example.application_viewer.services.PatientDemographicService;
-import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.components.PatientType;
 import com.example.application_viewer.components.SexType;
+import com.example.application_viewer.models.Patient;
+import com.example.application_viewer.models.PatientDemographic;
+import com.example.application_viewer.services.PatientDemographicService;
 
 @Controller
 public class PatientDemographicController {
@@ -24,7 +24,7 @@ public class PatientDemographicController {
      * matches the query. If no query is provided, no patient demographics will be returned.
      */
     @GetMapping("/patient_demographic_list")
-    public String searchPatient(
+    public String searchPatientDemographics(
         @RequestParam(required = false) Long id,
         @RequestParam(required = false) Patient patient,
         @RequestParam(required = false) PatientType patientType,
