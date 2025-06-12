@@ -11,7 +11,6 @@ import com.example.application_viewer.components.AddressType;
 import com.example.application_viewer.components.ResidenceType;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAddress;
-import com.example.application_viewer.models.PatientDemographic;
 
 public class PatientAddressSpecification {
     public static Specification<PatientAddress> filterBy(
@@ -49,7 +48,7 @@ public class PatientAddressSpecification {
                 if (electricCompany != null) predicates.add(cb.like(cb.lower(root.get("electricCompany")), "%" + electricCompany.toLowerCase() + "%"));
                 if (serviceLocNum != null) predicates.add(cb.like(cb.lower(root.get("serviceLocNum")), "%" + serviceLocNum.toLowerCase() + "%"));
                 
-                return cb.and(predicates.toArray(new Predicate[0]));
+                return cb.and(predicates.toArray(Predicate[]::new));
             };
         }
 }

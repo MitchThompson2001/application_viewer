@@ -70,7 +70,7 @@ public class PatientOrderSpecification {
                 predicates.add(cb.equal(ticketJoin, patientTransaction));
             }
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
     

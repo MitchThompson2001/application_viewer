@@ -26,7 +26,7 @@ public class PatientDiagnosisCodeSpecification {
             if (code != null) predicates.add(cb.equal(root.get("code"), code));
             if (description != null) predicates.add(cb.like(root.get("description"), "%" + description + "%"));
             
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
     

@@ -36,6 +36,7 @@ public class SecurityConfig {
                     "/register",
                     "/h2-console/**",
                     "/add_user",
+                    "/save_user",
                     "/css/**", 
                     "/js/**", 
                     "/test-auth",

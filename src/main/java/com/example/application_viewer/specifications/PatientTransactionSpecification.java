@@ -56,7 +56,7 @@ public class PatientTransactionSpecification {
             if (auditDate != null) predicates.add(cb.equal(root.get("auditDate"), auditDate));
             if (auditUpdateDate != null) predicates.add(cb.equal(root.get("auditUpdateDate"), auditUpdateDate));
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
 }

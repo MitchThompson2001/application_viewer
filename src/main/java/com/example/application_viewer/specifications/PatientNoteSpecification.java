@@ -37,7 +37,7 @@ public class PatientNoteSpecification {
             if (lastUpdatedBy != null) predicates.add(cb.like(cb.lower(root.get("lastUpdatedBy")), "%" + lastUpdatedBy.toLowerCase() + "%"));
             if (lastUpdatedDate != null) predicates.add(cb.equal(root.get("lastUpdatedDate"), lastUpdatedDate));
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
     

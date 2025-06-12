@@ -43,7 +43,7 @@ public class PatientContactSpecification {
             if (emergencyContact != null) predicates.add(cb.equal(root.get("emergencyContact"), emergencyContact));
             if (notes != null) predicates.add(cb.like(cb.lower(root.get("notes")), "%" + notes.toLowerCase() + "%"));
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
 
     }

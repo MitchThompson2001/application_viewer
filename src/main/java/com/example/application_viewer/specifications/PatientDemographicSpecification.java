@@ -61,7 +61,7 @@ public class PatientDemographicSpecification {
             if (homeCompanyLoc != null) predicates.add(cb.like(cb.lower(root.get("homeCompanyLoc")), "%" + homeCompanyLoc.toLowerCase() + "%"));
             if (lastUpdated != null) predicates.add(cb.equal(root.get("lastUpdated"), lastUpdated));
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
 }

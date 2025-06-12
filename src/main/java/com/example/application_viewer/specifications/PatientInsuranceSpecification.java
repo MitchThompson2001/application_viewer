@@ -78,7 +78,7 @@ public class PatientInsuranceSpecification {
             if (healthSavingsAccount != null) predicates.add(cb.equal(root.get("healthSavingsAccount"), healthSavingsAccount));
             if (notes != null) predicates.add(cb.like(cb.lower(root.get("notes")), "%" + notes.toLowerCase() + "%"));
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(Predicate[]::new));
         };
     }
 }

@@ -28,7 +28,7 @@ public class PatientAttributeSpecification {
                 if (effectiveDate != null) predicates.add(cb.equal(root.get("effectiveDate"), effectiveDate));
                 if (attribute != null) predicates.add(cb.like(cb.lower(root.get("attribute")), "%" + attribute.toLowerCase() + "%"));
                 
-                return cb.and(predicates.toArray(new Predicate[0]));
+                return cb.and(predicates.toArray(Predicate[]::new));
             };
         }
 }

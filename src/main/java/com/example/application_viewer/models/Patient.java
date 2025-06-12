@@ -15,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -35,12 +36,14 @@ public class Patient {
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
+    @JoinColumn(name = "patient_address")
     private PatientAddress patientAddress;
 
     @OneToOne(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
+    @JoinColumn(name = "patient_attribute")
     private PatientAttribute patientAttribute;
 
     @OneToMany(
@@ -59,6 +62,7 @@ public class Patient {
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
+    @JoinColumn(name = "patient_demographic")
     private PatientDemographic patientDemographic;
 
     @OneToMany(
@@ -77,6 +81,7 @@ public class Patient {
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
+    @JoinColumn(name = "patient_insurance")
     private PatientInsurance patientInsurance;
 
     @OneToMany(
