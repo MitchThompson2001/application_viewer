@@ -85,17 +85,17 @@ public class Patient {
         orphanRemoval = true)
     private final Set<PatientNote> patientNotes;
 
-    // @OneToMany(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private final Set<PatientOrder> patientOrders;
+    @OneToMany(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientOrder> patientOrders;
 
-    // @OneToMany(
-    //     mappedBy = "patient", 
-    //     cascade = CascadeType.ALL, 
-    //     orphanRemoval = true)
-    // private final Set<PatientTicket> patientTickets;
+    @OneToMany(
+        mappedBy = "patient", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private final Set<PatientTicket> patientTickets;
 
     // @OneToMany(
     //     mappedBy = "patient", 
@@ -110,8 +110,8 @@ public class Patient {
         patientDiagnosisCodes = new HashSet<>();
         patientDocuments = new HashSet<>();
         patientNotes = new HashSet<>();
-        // patientOrders = new HashSet<>();
-        // patientTickets = new HashSet<>();
+        patientOrders = new HashSet<>();
+        patientTickets = new HashSet<>();
         // patientTransactions = new HashSet<>();
     }
 
@@ -208,32 +208,32 @@ public class Patient {
         }
         return temp;
     }
-    // public Set<PatientOrder> getPatientOrders() {
-    //     return this.patientOrders;
-    // }
-    // public PatientOrder getPatientOrder(long id) {
-    //     PatientOrder temp = null;
-    //     for(PatientOrder val : this.patientOrders) {
-    //         if (val.getId() == id) {
-    //             temp = val;
-    //             break;
-    //         }
-    //     }
-    //     return temp;
-    // }
-    // public Set<PatientTicket> getPatientTickets() {
-    //     return this.patientTickets;
-    // }
-    // public PatientTicket getPatientTicket(long id) {
-    //     PatientTicket temp = null;
-    //     for(PatientTicket val : this.patientTickets) {
-    //         if (val.getId() == id) {
-    //             temp = val;
-    //             break;
-    //         }
-    //     }
-    //     return temp;
-    // } 
+    public Set<PatientOrder> getPatientOrders() {
+        return this.patientOrders;
+    }
+    public PatientOrder getPatientOrder(long id) {
+        PatientOrder temp = null;
+        for(PatientOrder val : this.patientOrders) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
+    public Set<PatientTicket> getPatientTickets() {
+        return this.patientTickets;
+    }
+    public PatientTicket getPatientTicket(long id) {
+        PatientTicket temp = null;
+        for(PatientTicket val : this.patientTickets) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    } 
     // public Set<PatientTransaction> getPatientTransactions() {
     //     return this.patientTransactions;
     // }
@@ -263,12 +263,12 @@ public class Patient {
     public void addPatientNote(PatientNote patientNote) {
         this.patientNotes.add(patientNote);
     }
-    // public void addPatientOrder(PatientOrder patientOrder) {
-    //     this.patientOrders.add(patientOrder);
-    // }
-    // public void addPatientTicket(PatientTicket patientTicket) {
-    //     this.patientTickets.add(patientTicket);
-    // }
+    public void addPatientOrder(PatientOrder patientOrder) {
+        this.patientOrders.add(patientOrder);
+    }
+    public void addPatientTicket(PatientTicket patientTicket) {
+        this.patientTickets.add(patientTicket);
+    }
     // public void addPatientTransaction(PatientTransaction patientTransaction) {
     //     this.patientTransactions.add(patientTransaction);
     // }
@@ -288,12 +288,12 @@ public class Patient {
     public void removePatientNote(PatientNote patientNote) {
         this.patientNotes.remove(patientNote);
     }
-    // public void removePatientOrder(PatientOrder patientOrder) {
-    //     this.patientOrders.remove(patientOrder);
-    // }
-    // public void removePatientTicket(PatientTicket patientTicket) {
-    //     this.patientTickets.remove(patientTicket);
-    // }
+    public void removePatientOrder(PatientOrder patientOrder) {
+        this.patientOrders.remove(patientOrder);
+    }
+    public void removePatientTicket(PatientTicket patientTicket) {
+        this.patientTickets.remove(patientTicket);
+    }
     // public void removePatientTransaction(PatientTransaction patientTransaction) {
     //     this.patientTransactions.remove(patientTransaction);
     // }
