@@ -1,10 +1,12 @@
 package com.example.application_viewer.specifications;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.example.application_viewer.models.Location;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAddress;
 import com.example.application_viewer.models.PatientAttribute;
@@ -38,7 +40,10 @@ public class PatientSpecification {
         PatientNote patientNote,
         PatientOrder patientOrder,
         PatientTicket patientTicket,
-        PatientTransaction patientTransaction
+        PatientTransaction patientTransaction,
+        Location location,
+        String lastUpdatedBy,
+        LocalDate lastUpdatedDate
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -79,6 +84,9 @@ public class PatientSpecification {
                 Join<PatientOrder, PatientAuthAndCert> ticketJoin = root.join("patient_transactions", JoinType.INNER);
                 predicates.add(cb.equal(ticketJoin, patientTransaction));
             }
+            if (location != null) predicates.add(cb.equal(root.get("location"), location));
+            if (lastUpdatedBy != null) predicates.add(cb.like(cb.lower(root.get("lastUpdatedBy")), "%" + lastUpdatedBy.toLowerCase() + "%"));
+            if (lastUpdatedDate != null) predicates.add(cb.equal(root.get("lastUpdatedDate"), lastUpdatedDate));
 
             return cb.and(predicates.toArray(Predicate[]::new));
         };

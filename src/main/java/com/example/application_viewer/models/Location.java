@@ -53,6 +53,12 @@ public class Location {
         mappedBy = "location", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
+    private final Set<Patient> patients;
+
+    @OneToMany(
+        mappedBy = "location", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
     private final Set<PatientTransaction> patientTransactions;
 
     @OneToMany(
@@ -62,6 +68,7 @@ public class Location {
     private final Set<PatientTicket> patientTickets;
 
     public Location() {
+        patients = new HashSet<>();
         patientTransactions = new HashSet<>();
         patientTickets = new HashSet<>();
     }
@@ -115,6 +122,19 @@ public class Location {
     public String getZipCode() {
         return this.zipCode;
     }
+    public Set<Patient> getPatients() {
+        return this.patients;
+    }
+    public Patient getPatient(long id) {
+        Patient temp = null;
+        for(Patient val : this.patients) {
+            if (val.getId() == id) {
+                temp = val;
+                break;
+            }
+        }
+        return temp;
+    }
     public Set<PatientTransaction> getPatientTransactions() {
         return this.patientTransactions;
     }
@@ -139,6 +159,9 @@ public class Location {
         return temp;
     }
 
+    public void addPatient(Patient patient) {
+        patients.add(patient);
+    }
     public void addPatientTransaction(PatientTransaction patientTransaction) {
         patientTransactions.add(patientTransaction);
     }
@@ -146,6 +169,9 @@ public class Location {
         patientTickets.add(patientTicket);
     }
 
+    public void removePatient(Patient patient) {
+        patients.remove(patient);
+    }
     public void removePatientTransaction(PatientTransaction patientTransaction) {
         patientTransactions.remove(patientTransaction);
     }

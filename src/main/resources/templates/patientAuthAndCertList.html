@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Authorizations & Certifications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .search-form input,
+        .search-form select {
+            margin-bottom: 1rem;
+        }
+        .table-container {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center mb-4">Patient Authorizations & Certifications</h2>
+
+    <!-- Search Form -->
+    <form class="row search-form" method="get" th:action="@{/patient_auth_and_cert_list}">
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="authCertNumber" th:value="${authCertNumber}" placeholder="Auth/Cert #">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="planCode" th:value="${planCode}" placeholder="Plan Code">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="hcpcsCode" th:value="${hcpcsCode}" placeholder="HCPCS Code">
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control" name="startDate" th:value="${startDate}" placeholder="Start Date">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="receiverLastName" th:value="${receiverLastName}" placeholder="Receiver Last Name">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+
+    <!-- Table Display -->
+    <div class="table-container">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        <a th:href="@{/patient_auth_and_cert_list(sortField='id', sortDir=${reverseSortDir})}">
+                            ID <span th:text="${sortField == 'id' ? (sortDir == 'asc' ? '↑' : '↓') : ''}"></span>
+                        </a>
+                    </th>
+                    <th>Patient ID</th>
+                    <th>Auth/Cert #</th>
+                    <th>Plan Code</th>
+                    <th>HCPCS</th>
+                    <th>Start Date</th>
+                    <th>Receiver</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${allPatAuthCert}">
+                    <td th:text="${item.id}">1</td>
+                    <td th:text="${item.patient != null ? item.patient.id : 'N/A'}">123</td>
+                    <td th:text="${item.authCertNumber}">ABC123</td>
+                    <td th:text="${item.planCode}">PLAN-X</td>
+                    <td th:text="${item.hcpcsCode}">A001</td>
+                    <td th:text="${#temporals.format(item.startDate, 'yyyy-MM-dd')}">2025-01-01</td>
+                    <td th:text="${item.receiverLastName} + ', ' + item.receiverFirstName">Doe, John</td>
+                    <td th:text="${#temporals.format(item.lastUpdatedDate, 'yyyy-MM-dd')}">2025-05-15</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(allPatAuthCert)}">
+                    <td colspan="8" class="text-center">No records found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

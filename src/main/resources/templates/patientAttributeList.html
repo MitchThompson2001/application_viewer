@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Attributes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .table-container {
+            margin-top: 2rem;
+        }
+        .search-form .form-control, .search-form .btn {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center mb-4">Patient Attribute List</h2>
+
+    <form class="row search-form" th:action="@{/patient_attribute_list}" method="get">
+        <div class="col-md-2">
+            <input type="text" name="id" class="form-control" th:value="${id}" placeholder="ID">
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="attribute" class="form-control" th:value="${attribute}" placeholder="Attribute">
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="effectiveDate" class="form-control" th:value="${effectiveDate}" placeholder="Effective Date">
+        </div>
+        <div class="col-md-2">
+            <select name="active" class="form-control">
+                <option th:selected="${active == null}" value="">-- Active? --</option>
+                <option th:selected="${active == true}" value="true">Yes</option>
+                <option th:selected="${active == false}" value="false">No</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+
+    <div class="table-container">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <a th:href="@{/patient_attribute_list(sortField='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                            ID
+                            <span th:text="${sortField == 'id' ? (sortDir == 'asc' ? '↑' : '↓') : ''}"></span>
+                        </a>
+                    </th>
+                    <th>Patient</th>
+                    <th>
+                        <a th:href="@{/patient_attribute_list(sortField='attribute', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                            Attribute
+                            <span th:text="${sortField == 'attribute' ? (sortDir == 'asc' ? '↑' : '↓') : ''}"></span>
+                        </a>
+                    </th>
+                    <th>Effective Date</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="attr : ${allPatAttrList}">
+                    <td th:text="${attr.id}">1</td>
+                    <td th:text="${attr.patient != null ? attr.patient.id : 'N/A'}">Patient ID</td>
+                    <td th:text="${attr.attribute}">Attribute</td>
+                    <td th:text="${#temporals.format(attr.effectiveDate, 'yyyy-MM-dd')}">2025-01-01</td>
+                    <td th:text="${attr.active ? 'Yes' : 'No'}">Yes</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(allPatAttrList)}">
+                    <td colspan="5" class="text-center">No attributes found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

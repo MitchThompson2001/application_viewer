@@ -6,16 +6,21 @@
 
 package com.example.application_viewer.models;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -36,89 +41,87 @@ public class Patient {
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    @JoinColumn(name = "patient_address")
     private PatientAddress patientAddress;
 
     @OneToOne(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    @JoinColumn(name = "patient_attribute")
     private PatientAttribute patientAttribute;
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientAuthAndCert> patientAuthAndCerts;
+    private final Set<PatientAuthAndCert> patientAuthAndCerts = new HashSet<>();
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientContact> patientContacts;
+    private final Set<PatientContact> patientContacts = new HashSet<>();
 
     @OneToOne(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    @JoinColumn(name = "patient_demographic")
     private PatientDemographic patientDemographic;
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientDiagnosisCode> patientDiagnosisCodes;
+    private final Set<PatientDiagnosisCode> patientDiagnosisCodes = new HashSet<>();
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientDocument> patientDocuments;
+    private final Set<PatientDocument> patientDocuments = new HashSet<>();
 
     @OneToOne(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    @JoinColumn(name = "patient_insurance")
     private PatientInsurance patientInsurance;
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientNote> patientNotes;
+    private final Set<PatientNote> patientNotes = new HashSet<>();
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientOrder> patientOrders;
+    private final Set<PatientOrder> patientOrders = new HashSet<>();
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientTicket> patientTickets;
+    private final Set<PatientTicket> patientTickets = new HashSet<>();
 
     @OneToMany(
         mappedBy = "patient", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
-    private final Set<PatientTransaction> patientTransactions;
+    private final Set<PatientTransaction> patientTransactions = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @Column(name = "last_updated_by")
+    private String lastUpdatedBy;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM-dd-yyyy")
+    @Column(name = "last_updated_date")
+    private LocalDate lastUpdatedDate;
 
 
-    public Patient() {
-        patientAuthAndCerts = new HashSet<>();
-        patientContacts = new HashSet<>();
-        patientDiagnosisCodes = new HashSet<>();
-        patientDocuments = new HashSet<>();
-        patientNotes = new HashSet<>();
-        patientOrders = new HashSet<>();
-        patientTickets = new HashSet<>();
-        patientTransactions = new HashSet<>();
-    }
+    public Patient() {}
 
     public void setPatientAddress(PatientAddress patientAddress) {
         this.patientAddress = patientAddress;
@@ -131,6 +134,15 @@ public class Patient {
     }
     public void setPatientInsurance(PatientInsurance patientInsurance) {
         this.patientInsurance = patientInsurance;
+    }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+    public void setLastUpdatedDate(LocalDate lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public long getId() {
@@ -251,6 +263,15 @@ public class Patient {
             }
         }
         return temp;
+    }
+    public Location getLocation() {
+        return this.location;
+    }
+    public String getLastUpdatedBy() {
+        return this.lastUpdatedBy;
+    }
+    public LocalDate getLastUpdatedDate() {
+        return this.lastUpdatedDate;
     }
 
     public void addPatientAuthAndCert(PatientAuthAndCert patientAuthAndCert) {

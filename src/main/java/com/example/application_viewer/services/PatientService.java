@@ -6,6 +6,7 @@
 
 package com.example.application_viewer.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.example.application_viewer.models.Location;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAddress;
 import com.example.application_viewer.models.PatientAttribute;
@@ -28,6 +30,8 @@ import com.example.application_viewer.models.PatientTicket;
 import com.example.application_viewer.models.PatientTransaction;
 import com.example.application_viewer.repositories.PatientRepository;
 import com.example.application_viewer.specifications.PatientSpecification;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PatientService {
@@ -51,7 +55,10 @@ public class PatientService {
         PatientNote patientNote,
         PatientOrder patientOrder,
         PatientTicket patientTicket,
-        PatientTransaction patientTransaction, 
+        PatientTransaction patientTransaction,
+        Location location,
+        String lastUpdatedBy,
+        LocalDate lastUpdatedDate,
         String sortField, 
         String sortDir) {
 
@@ -68,7 +75,10 @@ public class PatientService {
             patientNote, 
             patientOrder, 
             patientTicket, 
-            patientTransaction
+            patientTransaction,
+            location,
+            lastUpdatedBy,
+            lastUpdatedDate
         );
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
@@ -86,11 +96,15 @@ public class PatientService {
     //     patientRepository.save(patient);
     // }
 
-    // public Patient getByID(long id) {
-    //     return patientRepository.findById(id)
-    //         .orElseThrow(() -> 
-    //         new EntityNotFoundException("Entity not found for ID " + id));
-    // }
+    public Patient findById(long id) {
+        return patientRepository.findById(id)
+            .orElseThrow(() -> 
+            new EntityNotFoundException("Entity not found for ID " + id));
+    }
+
+    public void updatePatient(Patient updatedPatient) {
+        
+    }
     
     // public void deleteByID(long id) {
     //     patientRepository.deleteById(id);

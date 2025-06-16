@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Insurance List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .form-control, .btn {
+            margin-bottom: 1rem;
+        }
+        .table-container {
+            margin-top: 2rem;
+        }
+        th a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Patient Insurance List</h2>
+
+    <form method="get" th:action="@{/patient_insurance_list}" class="row g-3">
+        <div class="col-md-4">
+            <label for="insuranceName" class="form-label">Insurance Name</label>
+            <input type="text" id="insuranceName" name="insuranceName" th:value="${insuranceName}" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="policyNumber" class="form-label">Policy Number</label>
+            <input type="text" id="policyNumber" name="policyNumber" th:value="${policyNumber}" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="insuredLastName" class="form-label">Insured Last Name</label>
+            <input type="text" id="insuredLastName" name="insuredLastName" th:value="${insuredLastName}" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="insuredFirstName" class="form-label">Insured First Name</label>
+            <input type="text" id="insuredFirstName" name="insuredFirstName" th:value="${insuredFirstName}" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="groupNumber" class="form-label">Group Number</label>
+            <input type="text" id="groupNumber" name="groupNumber" th:value="${groupNumber}" class="form-control">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><a th:href="@{/patient_insurance_list(sortField='id', sortDir=${reverseSortDir})}">ID</a></th>
+                    <th>Insurance Name</th>
+                    <th>Policy Number</th>
+                    <th>Group Number</th>
+                    <th>Plan Name</th>
+                    <th>Insured Name</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="insurance : ${allPatInsList}">
+                    <td th:text="${insurance.id}">1</td>
+                    <td th:text="${insurance.insuranceName}">Insurance Co</td>
+                    <td th:text="${insurance.policyNumber}">POL12345</td>

@@ -6,14 +6,19 @@
 
 package com.example.application_viewer.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.example.application_viewer.components.PatientType;
+import com.example.application_viewer.models.Location;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAddress;
 import com.example.application_viewer.models.PatientAttribute;
@@ -27,7 +32,12 @@ import com.example.application_viewer.models.PatientNote;
 import com.example.application_viewer.models.PatientOrder;
 import com.example.application_viewer.models.PatientTicket;
 import com.example.application_viewer.models.PatientTransaction;
+import com.example.application_viewer.services.PatientAddressService;
+import com.example.application_viewer.services.PatientDemographicService;
 import com.example.application_viewer.services.PatientService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /*
  * Controller class that manages http requests relating to the Patient class.
@@ -36,6 +46,8 @@ import com.example.application_viewer.services.PatientService;
 public class PatientController {
     
     @Autowired private PatientService patientService;
+    @Autowired private PatientAddressService patientAddressService;
+    @Autowired private PatientDemographicService patientDemographicService;
 
     /*
      * Returns the result of a search query for any patient with data that
@@ -56,6 +68,9 @@ public class PatientController {
         @RequestParam(required = false) PatientOrder patientOrder,
         @RequestParam(required = false) PatientTicket patientTicket,
         @RequestParam(required = false) PatientTransaction patientTransaction,
+        @RequestParam(required = false) Location location,
+        @RequestParam(required = false) String lastUpdatedBy,
+        @RequestParam(required = false) LocalDate lastUpdatedDate,
         @RequestParam(required = false, defaultValue = "id") String sortField,
         @RequestParam(required = false, defaultValue = "asc") String sortDir,
         Model model) {
@@ -74,6 +89,9 @@ public class PatientController {
             patientOrder, 
             patientTicket,
             patientTransaction,
+            location,
+            lastUpdatedBy,
+            lastUpdatedDate,
             sortField,
             sortDir
         );
@@ -92,12 +110,45 @@ public class PatientController {
         model.addAttribute("patientOrder", patientOrder);
         model.addAttribute("patientTicket", patientTicket);
         model.addAttribute("patientTransaction", patientTransaction);
+        model.addAttribute("location", location);
+        model.addAttribute("lastUpdatedBy", lastUpdatedBy);
+        model.addAttribute("lastUpdatedDate", lastUpdatedDate);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         return "patientList";
     }
+
+    @GetMapping("/patient_modal/{patientId}")
+    public String getPatientModal(@PathVariable Long patientId, Model model) {
+
+        Patient patient = patientService.findById(patientId);
+        System.out.println("Patient id: " + patient.getId());
+        PatientAddress patientAddress = patientAddressService.findByPatient(patient);
+        System.out.println("Patient address: " + patientAddress.getAddressA());
+        PatientDemographic patientDemographic = patientDemographicService.findByPatient(patient);
+        System.out.println("Patient first name: " + patientDemographic.getFirstName());
+
+        model.addAttribute("patientId", patientId);
+        model.addAttribute("patient", patient);
+        model.addAttribute("patientAddress", patientAddress);
+        // model.addAttribute("addressTypes", AddressType.values());
+        // model.addAttribute("residenceTypes", ResidenceType.values());
+        model.addAttribute("patientDemographic", patientDemographic);
+        model.addAttribute("patientTypes", PatientType.values());
+        // model.addAttribute("sexTypes", SexType.values());
+        
+        return "fragments/patientModal :: modalContent";
+    }
+
+    @PostMapping("update_patient")
+    public String updatePatient(@ModelAttribute Patient patient) {
+        patientService.updatePatient(patient);
+        
+        return "redirect:/patient_list";
+    }
+    
 
 
     // Methods below not included due to read-only implementation for patient data

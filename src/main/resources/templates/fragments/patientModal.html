@@ -1,0 +1,115 @@
+<!-- Name: Mitchell Thompson
+File: patientModal.html
+Project: Data Viewer Application -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>NavigationBar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div th:fragment="modalContent">
+        <form th:action="@{/update_patient}" method="post"></form>
+        <form>
+            <input type="hidden" th:value="${patientId}" name="patientId" />
+            
+            <div class="mb-3">
+                <label for="patientType" class="form-label">Patient Type</label>
+                <select class="form-select" id="patientType" name="patientType">
+                    <option th:each="type : ${patientTypes}"
+                            th:value="${type.name()}"
+                            th:text="${type.name()}"
+                            th:selected="${selectedPatient != null and selectedPatient.patientDemographic != null and type.name() == selectedPatient.patientDemographic.patientType}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="firstName"
+                    name="patientDemographic.firstName"
+                    th:value="${patientDemographic != null ? patientDemographic.firstName : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="lastName"
+                    name="patientDemographic.lastName"
+                    th:value="${patientDemographic != null ? patientDemographic.lastName : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="phoneA" class="form-label">Phone</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="phoneA"
+                    name="patientDemographic.phoneA"
+                    th:value="${patientDemographic != null ? patientDemographic.phoneA : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="emailA" class="form-label">Email</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="emailA"
+                    name="patientDemographic.emailA"
+                    th:value="${patientDemographic != null ? patientDemographic.emailA : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="text"
+                    class="form-control"
+                    id="dob"
+                    name="patientDemographic.dob"
+                    placeholder="MM-dd-yyyy"
+                    th:value="${patientDemographic.dob != null ? #temporals.format(patientDemographic.dob, 'MM-dd-yyyy') : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="location"
+                    name="patient.location"
+                    th:value="${patient != null ? patient.location : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="addressA" class="form-label">Address</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="addressA"
+                    name="patientAddress.addressA"
+                    th:value="${patientAddress != null ? patientAddress.addressA : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="city"
+                    name="patientAddress.city"
+                    th:value="${patientAddress != null ? patientAddress.city : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="state"
+                    name="patientAddress.state"
+                    th:value="${patientAddress != null ? patientAddress.state : ''}" />
+            </div>
+            <div class="mb-3">
+                <label for="zipCode" class="form-label">ZIP</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="zipCode"
+                    name="patientAddress.zipCode"
+                    th:value="${patientAddress != null ? patientAddress.zipCode : ''}" />
+            </div>
+            
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -7,12 +7,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.example.application_viewer.components.AddressType;
+import com.example.application_viewer.components.ResidenceType;
 import com.example.application_viewer.models.Patient;
 import com.example.application_viewer.models.PatientAddress;
 import com.example.application_viewer.repositories.PatientAddressRepository;
 import com.example.application_viewer.specifications.PatientAddressSpecification;
-import com.example.application_viewer.components.AddressType;
-import com.example.application_viewer.components.ResidenceType;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PatientAddressService {
@@ -56,5 +58,11 @@ public class PatientAddressService {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
         return patientAddressRepository.findAll(spec, sort);
+    }
+
+    public PatientAddress findByPatient(Patient patient) {
+        return patientAddressRepository.findByPatient(patient)
+            .orElseThrow(() -> 
+            new EntityNotFoundException("Entity not found for patient " + patient.getId()));
     }
 }

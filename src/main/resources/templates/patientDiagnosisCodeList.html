@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Diagnosis Codes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .form-control, .btn {
+            margin-bottom: 1rem;
+        }
+        .table-container {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center mb-4">Patient Diagnosis Code List</h2>
+
+    <!-- Filter/Search Form -->
+    <form method="get" th:action="@{/patient_diagnosis_code_list}" class="row g-3">
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="code" th:value="${code}" placeholder="Diagnosis Code" />
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="description" th:value="${description}" placeholder="Description" />
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" name="id" th:value="${id}" placeholder="ID" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+
+    <!-- Diagnosis Code Table -->
+    <div class="table-container">
+        <table class="table table-striped table-bordered align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        <a th:href="@{/patient_diagnosis_code_list(sortField='id', sortDir=${reverseSortDir})}">
+                            ID <span th:text="${sortField == 'id' ? (sortDir == 'asc' ? '↑' : '↓') : ''}"></span>
+                        </a>
+                    </th>
+                    <th>Patient ID</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="diag : ${allPatDiagCodeList}">
+                    <td th:text="${diag.id}">1</td>
+                    <td th:text="${diag.patient != null ? diag.patient.id : 'N/A'}">101</td>
+                    <td th:text="${diag.code}">Z01.00</td>
+                    <td th:text="${diag.description}">General diagnosis</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(allPatDiagCodeList)}">
+                    <td colspan="4" class="text-center">No diagnosis codes found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

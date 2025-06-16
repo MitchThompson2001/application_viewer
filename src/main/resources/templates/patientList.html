@@ -106,7 +106,7 @@ Project: Data Viewer Application -->
                 <div class="col-md-8">
 
                     <div class="mb-3">
-                        <button id="viewDocsBtn" class="btn btn-primary" disabled>View Documents</button>
+                        <button id="viewDocsBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPatientModal" disabled>Edit/View</button>
                         <input type="hidden" id="selectedPatientId" />
                     </div>
                     <div class="table-responsive">
@@ -117,11 +117,19 @@ Project: Data Viewer Application -->
                                         <a
                                             th:href="@{/patient_list(
                                                 id=${id},
+                                                patientType=${patientType},
                                                 firstName=${firstName},
                                                 lastName=${lastName},
-                                                email=${email},
+                                                phone=${phoneA},
+                                                email=${emailA},
                                                 dob=${dob},
-                                                phone=${phone},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
                                                 sortField='id',
                                                 sortDir=${sortField == 'id' and sortDir == 'asc' ? 'desc' : 'asc'}
                                             )}"
@@ -135,90 +143,337 @@ Project: Data Viewer Application -->
                                         <a
                                             th:href="@{/patient_list(
                                                 id=${id},
+                                                patientType=${patientType},
                                                 firstName=${firstName},
                                                 lastName=${lastName},
-                                                email=${email},
+                                                phone=${phoneA},
+                                                email=${emailA},
                                                 dob=${dob},
-                                                phone=${phone},
-                                                sortField='firstName',
-                                                sortDir=${sortField == 'firstName' and sortDir == 'asc' ? 'desc' : 'asc'}
-                                            )}"
-                                            class="text-decoration-none text-dark d-flex align-items-center"
-                                        >
-                                            First Name
-                                            <span class="sort-arrow" th:if="${sortField == 'firstName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
-                                        </a>
-                                    </th>
-                                    <th scope="col">
-                                        <a
-                                            th:href="@{/patient_list(
-                                                id=${id},
-                                                firstName=${firstName},
-                                                lastName=${lastName},
-                                                email=${email},
-                                                dob=${dob},
-                                                phone=${phone},
-                                                sortField='lastName',
-                                                sortDir=${sortField == 'lastName' and sortDir == 'asc' ? 'desc' : 'asc'}
-                                            )}"
-                                            class="text-decoration-none text-dark d-flex align-items-center"
-                                        >
-                                            Last Name
-                                            <span class="sort-arrow" th:if="${sortField == 'lastName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
-                                        </a>
-                                    </th>
-                                    <th scope="col">
-                                        <a
-                                            th:href="@{/patient_list(
-                                                id=${id},
-                                                firstName=${firstName},
-                                                lastName=${lastName},
-                                                email=${email},
-                                                dob=${dob},
-                                                phone=${phone},
-                                                sortField='email',
-                                                sortDir=${sortField == 'email' and sortDir == 'asc' ? 'desc' : 'asc'}
-                                            )}"
-                                            class="text-decoration-none text-dark d-flex align-items-center"
-                                        >
-                                            Email
-                                            <span class="sort-arrow" th:if="${sortField == 'email'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
-                                        </a>
-                                    </th>
-                                    <th scope="col">
-                                        <a
-                                            th:href="@{/patient_list(
-                                                id=${id},
-                                                firstName=${firstName},
-                                                lastName=${lastName},
-                                                email=${email},
-                                                dob=${dob},
-                                                phone=${phone},
-                                                sortField='dob',
-                                                sortDir=${sortField == 'dob' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.dob',
+                                                sortDir=${sortField == 'patientDemographic.dob' and sortDir == 'asc' ? 'desc' : 'asc'}
                                             )}"
                                             class="text-decoration-none text-dark d-flex align-items-center"
                                         >
                                             DOB
-                                            <span class="sort-arrow" th:if="${sortField == 'dob'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.dob'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
                                         </a>
                                     </th>
                                     <th scope="col">
                                         <a
                                             th:href="@{/patient_list(
                                                 id=${id},
+                                                patientType=${patientType},
                                                 firstName=${firstName},
                                                 lastName=${lastName},
-                                                email=${email},
+                                                phone=${phoneA},
+                                                email=${emailA},
                                                 dob=${dob},
-                                                phone=${phone},
-                                                sortField='phone',
-                                                sortDir=${sortField == 'phone' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.firstName',
+                                                sortDir=${sortField == 'patientDemographic.firstName' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            First Name
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.firstName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.lastName',
+                                                sortDir=${sortField == 'patientDemographic.lastName' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Last Name
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.lastName'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.phoneA',
+                                                sortDir=${sortField == 'patientDemographic.phoneA' and sortDir == 'asc' ? 'desc' : 'asc'}
                                             )}"
                                             class="text-decoration-none text-dark d-flex align-items-center"
                                         >
                                             Phone
-                                            <span class="sort-arrow" th:if="${sortField == 'phone'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.phoneA'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.emailA',
+                                                sortDir=${sortField == 'patientDemographic.emailA' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Email
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.emailA'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientDemographic.dob',
+                                                sortDir=${sortField == 'patientDemographic.dob' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            DOB
+                                            <span class="sort-arrow" th:if="${sortField == 'patientDemographic.dob'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='location',
+                                                sortDir=${sortField == 'location' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Location
+                                            <span class="sort-arrow" th:if="${sortField == 'location'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientAddress.addressA',
+                                                sortDir=${sortField == 'patientAddress.addressA' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Address
+                                            <span class="sort-arrow" th:if="${sortField == 'patientAddress.addressA'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientAddress.city',
+                                                sortDir=${sortField == 'patientAddress.city' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            City
+                                            <span class="sort-arrow" th:if="${sortField == 'patientAddress.city'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientAddress.state',
+                                                sortDir=${sortField == 'patientAddress.state' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            State
+                                            <span class="sort-arrow" th:if="${sortField == 'patientAddress.state'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='patientAddress.zipCode',
+                                                sortDir=${sortField == 'patientAddress.zipCode' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            ZIP
+                                            <span class="sort-arrow" th:if="${sortField == 'patientAddress.zipCode'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='lastUpdatedBy',
+                                                sortDir=${sortField == 'lastUpdatedBy' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Last User
+                                            <span class="sort-arrow" th:if="${sortField == 'lastUpdatedBy'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a
+                                            th:href="@{/patient_list(
+                                                id=${id},
+                                                patientType=${patientType},
+                                                firstName=${firstName},
+                                                lastName=${lastName},
+                                                phone=${phoneA},
+                                                email=${emailA},
+                                                dob=${dob},
+                                                location=${location},
+                                                address=${addressA},
+                                                city=${ciy},
+                                                state=${state},
+                                                zip=${zipCode},
+                                                lastUpdatedBy=${lastUpdatedBy},
+                                                lastUpdatedDate=${lastUpdatedDate},
+                                                sortField='lastUpdatedDate',
+                                                sortDir=${sortField == 'lastUpdatedDate' and sortDir == 'asc' ? 'desc' : 'asc'}
+                                            )}"
+                                            class="text-decoration-none text-dark d-flex align-items-center"
+                                        >
+                                            Last Updated
+                                            <span class="sort-arrow" th:if="${sortField == 'lastUpdatedDate'}" th:text="${sortDir == 'asc' ? '▲' : '▼'}"></span>
                                         </a>
                                     </th>
                                 </tr>
@@ -229,11 +484,19 @@ Project: Data Viewer Application -->
                                     style="cursor: pointer;">
 
                                     <td th:text="${patient.id}">3</td>
-                                    <td th:text="${patient.firstName}">John</td>
-                                    <td th:text="${patient.lastName}">Doe</td>
-                                    <td th:text="${patient.email}">john.doe@example.com</td>
-                                    <td th:text="${#temporals.format(patient.dob, 'MM-dd-yyyy')}">12-31-1999</td>
-                                    <td th:text="${patient.phone}">(123) 456-7890</td>
+                                    <td th:text="${patient.patientDemographic?.patientType}">STND</td>
+                                    <td th:text="${patient.patientDemographic?.firstName}">John</td>
+                                    <td th:text="${patient.patientDemographic?.lastName}">Doe</td>
+                                    <td th:text="${patient.patientDemographic?.phoneA}">000-000-0000</td>
+                                    <td th:text="${patient.patientDemographic?.emailA}">john.doe@example.com</td>
+                                    <td th:text="${#temporals.format(patient.patientDemographic?.dob, 'MM-dd-yyyy')}">12-31-1999</td>
+                                    <td th:text="${patient.location}">7890</td>
+                                    <td th:text="${patient.patientAddress?.addressA}">1234 Home Ave</td>
+                                    <td th:text="${patient.patientAddress?.city}">Los Santos</td>
+                                    <td th:text="${patient.patientAddress?.state}">Californi</td>
+                                    <td th:text="${patient.patientAddress?.zipCode}">12345</td>
+                                    <td th:text="${patient.lastUpdatedBy}">harrythequeen</td>
+                                    <td th:text="${#temporals.format(patient.lastUpdatedDate, 'MM-dd-yyyy')}">12-31-1864</td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(allPatList)}">
                                     <td colspan="5" class="text-center text-muted">No patients found.</td>
@@ -249,53 +512,62 @@ Project: Data Viewer Application -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const phoneInput = document.getElementById("phone");
+   document.addEventListener("DOMContentLoaded", function () {
+    const rows = document.querySelectorAll("tr[data-patient-id]");
+    const selectedInput = document.getElementById("selectedPatientId");
+    const viewDocsBtn = document.getElementById("viewDocsBtn");
 
-        // Format phone input
-        phoneInput.addEventListener("input", function (e) {
-            let value = e.target.value.replace(/\D/g, "");
-            if (value.length > 10) value = value.slice(0, 10);
+    rows.forEach(row => {
+        row.addEventListener("click", function () {
+            rows.forEach(r => r.classList.remove("selected-row"));
+            this.classList.add("selected-row");
 
-            const parts = [];
-            if (value.length > 0) parts.push(value.substring(0, 3));
-            if (value.length >= 4) parts.push(value.substring(3, 6));
-            if (value.length >= 7) parts.push(value.substring(6));
-
-            e.target.value = parts.join("-");
-        });
-
-        // row logic
-        const rows = document.querySelectorAll("tr[data-patient-id]");
-        const selectedInput = document.getElementById("selectedPatientId");
-        const viewDocsBtn = document.getElementById("viewDocsBtn");
-
-        rows.forEach(row => {
-            row.addEventListener("click", function () {
-                // Deselect other rows
-                rows.forEach(r => r.classList.remove("selected-row"));
-
-                // Highlight current row
-                this.classList.add("selected-row");
-
-                // Store selected patient ID
-                const patientId = this.getAttribute("data-patient-id");
-                selectedInput.value = patientId;
-                viewDocsBtn.disabled = false;
-            });
-        });
-
-        viewDocsBtn.addEventListener("click", function () {
-            const patientId = selectedInput.value;
-            if (patientId) {
-                window.location.href = `/document_list/${patientId}`;
-            }
-        });
-
-        document.getElementById("resetBtn").addEventListener("click", function () {
-            window.location.href = "/patient_list";
+            const patientId = this.getAttribute("data-patient-id");
+            selectedInput.value = patientId;
+            viewDocsBtn.disabled = false;
         });
     });
+
+    viewDocsBtn.addEventListener("click", function () {
+        const patientId = selectedInput.value;
+        const modalContent = document.getElementById("modalPatientContent");
+
+        if (patientId) {
+            modalContent.innerHTML = "Loading...";
+            fetch(`/patient_modal/${patientId}`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to load content");
+                    return response.text();
+                })
+                .then(html => {
+                    modalContent.innerHTML = html;
+                })
+                .catch(err => {
+                    modalContent.innerHTML = `<div class="text-danger">Error: ${err.message}</div>`;
+                });
+        }
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", function () {
+        window.location.href = "/patient_list";
+    });
+});
 </script>
+    <!-- Modal -->
+    <div class="modal fade" id="editPatientModal" tabindex="-1" aria-labelledby="editPatientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPatientModalLabel">Edit Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalPatientContent">
+                Loading...
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
